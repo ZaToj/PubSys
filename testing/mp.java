@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import com.mysql.cj.protocol.Resultset;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,9 +23,51 @@ public class mp extends JFrame
 	public static void main(String args[]) 
 	{ 
         Scanner scan = new Scanner(System.in);
-        mainMenu();
+        landingPage();
         scan.close();   
 	} 
+
+    public static void landingPage(){
+        JFrame frame = new JFrame("Landing Page");
+        JButton login = new JButton("Login");
+        JButton createAcc = new JButton("Create Account");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocation ( 150, 150 );
+        frame.setVisible(true);
+        buttonPanel.add(login);
+        buttonPanel.add(createAcc);
+        frame.add(buttonPanel);
+
+        //Logib
+        login.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.setVisible(false);
+                signIn();
+            }
+          
+        });
+
+        
+        //Create Account
+        createAcc.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.setVisible(false);
+                NewUser();
+            }
+          
+        });
+
+
+
+
+    }
+
 
     public static void mainMenu(){
         JFrame frame = new JFrame("Main Menu");
@@ -56,6 +101,49 @@ public class mp extends JFrame
           
         });
     }
+    public static void signIn(){
+        JFrame frame = new JFrame("Sign in");
+        JPanel username = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton loginButton = new JButton("LOG IN MAN PLEASEEEEEEEE");
+
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocation ( 150, 150 );
+        frame.setVisible(true);
+
+        username.add(new JLabel("Name: "));
+        name= new JTextField(10);
+        username.add(name);
+        frame.add(username);
+
+        frame.add(loginButton);
+        loginButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                grabAcc(name.getText());
+            }
+          
+        });
+    }
+    public static void grabAcc(String name){
+        Resultset resultset = null;
+
+        try {
+            Connection con = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
+            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM user");
+            pstmt.executeUpdate();
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog( null,"NO WORK!","!", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }
+
+
+
     public static void orderMenue(){
         JFrame frame = new JFrame("Order Menu");
         Label label = new Label("How many beers would you like?");
@@ -64,6 +152,8 @@ public class mp extends JFrame
         JButton nButton = new JButton("No!!(??)");
         Label button1Label = new Label("Would you like a beer?\n");
         TextField textField = new TextField(15);
+        JButton returnButton = new JButton("Return");
+
 
         frame.setLayout( new FlowLayout() ); // set frame layout
         frame.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
@@ -116,7 +206,17 @@ public class mp extends JFrame
                 }
             }
           
-        });        
+        });  
+        frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.setVisible(false);
+                mainMenu();
+            }
+          
+        });
+      
 
     
 
@@ -127,8 +227,9 @@ public class mp extends JFrame
         JPanel dobPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton returnButton = new JButton("Return");
         frame.setSize(400,300);
-        frame.setLayout(new GridLayout(5,2,10,10));
+        frame.setLayout(new GridLayout(6,2,10,10));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
         frame.setVisible(true);
@@ -174,6 +275,20 @@ public class mp extends JFrame
                 addUser();
             }
         });
+
+        //return button
+        frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.setVisible(false);
+                mainMenu();
+            }
+          
+        });
+
+
+        
     }
     public static void addUser(){
         // ill do this later 
@@ -194,11 +309,12 @@ public class mp extends JFrame
         }
         try {
             Connection con = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO user (name, dob, address, gender) VALUES (?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO user (name, dob, address, gender, pointsAmount) VALUES (?, ?, ?, ?, ?)");
             pstmt.setString(1,sqlName);
             pstmt.setDate(2,Date.valueOf(sqlDob));
             pstmt.setString(3,sqlAddress);
             pstmt.setString(4,sqlGender);
+            pstmt.setInt(5,0);
             pstmt.executeUpdate();
 
 

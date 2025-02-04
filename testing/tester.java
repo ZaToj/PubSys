@@ -65,6 +65,13 @@ public class tester extends JFrame {
         setVisible(true);
     }
 
+    private int ageCalc(String in){
+
+
+
+        return 1;
+    }
+
     private void insertData() {
         String name = nameField.getText();
         String dob = dobField.getText();

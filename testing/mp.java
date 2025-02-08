@@ -320,8 +320,8 @@ public class mp extends JFrame
         returnButton.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.setVisible(false);
-                mainMenu();
+                frame.dispose();
+                landingPage();
             }
           
         });

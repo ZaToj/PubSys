@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-import com.mysql.cj.protocol.Resultset;
+//import com.mysql.cj.protocol.Resultset;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
-import java.util.concurrent.Flow;
+//import java.util.concurrent.Flow;
 public class mp extends JFrame
 { 
 
@@ -19,6 +19,8 @@ public class mp extends JFrame
     private static final String DB_USER = "Toj";  // Change this to your MySQL username
     private static final String DB_PASS = "KeelJameTojMjoan";      // Change this to your MySQL password
 
+
+    private static User currentUser = new User();
     
 	public static void main(String args[]) 
 	{ 
@@ -110,8 +112,6 @@ public class mp extends JFrame
         frame.setLayout(new GridLayout(6,2,10,10));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
-        frame.setVisible(true);
-
         username.add(new JLabel("Name: "));
         name= new JTextField(10);
         username.add(name);
@@ -121,27 +121,66 @@ public class mp extends JFrame
         loginButton.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                grabAcc(name.getText());
+                boolean con=grabAcc(name.getText());
+                if(con){mainMenu();}
+                frame.setVisible(false);
             }
           
         });
-    }
-    public static void grabAcc(String name){
-        Resultset resultset = null;
+        frame.setVisible(true);
 
+    }
+    public static boolean grabAcc(String nameInput) {
+        String userName = null;
+        String userDob = null;
+        String userAddress = null;
+        String userGender = null;
+        int userPoints = 0;
+        boolean canLeave=false;
+    
         try {
-            Connection con = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
-            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM user");
-            pstmt.executeUpdate();
-        } 
-        catch (Exception e) {
+            Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            String query = "SELECT * FROM user WHERE name = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, nameInput);  
+            ResultSet resultSet = pstmt.executeQuery();
+    
+            if (resultSet.next()) { 
+                userName = resultSet.getString("name");
+                userDob = resultSet.getString("dob");
+                userAddress = resultSet.getString("address");
+                userGender = resultSet.getString("gender");
+                userPoints = resultSet.getInt("pointsAmount");
+    
+                /*
+                System.out.println("User Found: " + userName);
+                System.out.println("DOB: " + userDob);
+                System.out.println("Address: " + userAddress);
+                System.out.println("Gender: " + userGender);
+                System.out.println("Points: " + userPoints);
+                */
+    
+                JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
+                canLeave=true;
+            } 
+            else {
+                JOptionPane.showMessageDialog(null, "User not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    
+            // Close resources
+            resultSet.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog( null,"NO WORK!","!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-
+        currentUser = new User(userName, userDob, userAddress, userGender, userPoints);
+        System.out.println(currentUser.toString());
+        return canLeave;
     }
-
+    
 
 
     public static void orderMenue(){

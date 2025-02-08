@@ -16,6 +16,10 @@ public class User {
         this.pointAmount = pointAmount;
         this.age = 100;//will fix with an actual calc eventually
     }
+    public String toString(){
+        return ("name: "+name + "\n address: "+address+ "\n Gender: "+gender+ "\n Points:: "+pointAmount );
+        
+    }
      
     
 }

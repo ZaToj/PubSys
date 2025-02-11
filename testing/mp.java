@@ -455,21 +455,29 @@ public class mp extends JFrame
     public static void newOrderMenu(){
         JFrame frame = new JFrame("Order Menu");
         frame.setSize(400,300);
-        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setLayout(new GridLayout(2,2,10,10));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
 
+        JLabel itemLabel = new JLabel("FOOD MAN IM HUN");
         JButton returnButton = new JButton("Return");
         menuItem item[] = new menuItem[10];
         item[1] = new menuItem();
         item[1].setImgFilePath("C:\\Users\\Thomas Clancy\\Documents\\Y2\\PubSys\\Imgs\\snack.jpg");
-        JLabel label2 = new JLabel( "  text     ", item[1].getIcon() ,SwingConstants.CENTER);
-        frame.add(label2);
+        JLabel label2 = new JLabel( "", item[1].getIcon() ,SwingConstants.CENTER);
+        //frame.add(label2);
+        JPanel itemPannel[] = new JPanel[10];
+        itemPannel[1] = new JPanel();
+        itemPannel[1].add(label2);
+        itemPannel[1].add(itemLabel);
+        frame.add(itemPannel[1]);
         frame.setVisible(true);
 
 
+
+
         //return button
-        frame.add(returnButton);
+        //frame.add(returnButton);
         returnButton.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){

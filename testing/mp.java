@@ -15,9 +15,9 @@ public class mp extends JFrame
     private static JTextField name, dob, address;
     private static JRadioButton male, female, tojian;
     private static JButton submit;
-    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/pub_sys";
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/PubSys";
     private static final String DB_USER = "Toj";  // Change this to your MySQL username
-    private static final String DB_PASS = "KeelJameTojMjoan";      // Change this to your MySQL password
+    private static final String DB_PASS = "Maxcatman123!";      // Change this to your MySQL password
 
 
     private static User currentUser = new User();
@@ -73,23 +73,27 @@ public class mp extends JFrame
 
     public static void mainMenu(){
         JFrame frame = new JFrame("Main Menu");
-        JButton button = new JButton("ORDER MENUE");
-        JButton button2 = new JButton("NEW USER");
+        JButton button = new JButton("Order");
+        JButton button4 = new JButton("Order 2");
+        JButton button2 = new JButton("View Profile");
+        JButton button3 = new JButton("View order History");
         //Label button1Label = new Label("Order");
         
-        frame.setLayout( new FlowLayout() ); // set frame layout
+        frame.setLayout( new GridLayout(1,4) ); // set frame layout
         frame.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
         frame.setSize ( 900, 900) ;
         frame.setVisible ( true ) ;
         frame.setLocation ( 150, 150 );
         frame.add(button);
         frame.add(button2);
+        frame.add(button3);
+        frame.add(button4);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //frame.add(button1Label);
         button.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.setVisible(false);
+                frame.dispose();
                 orderMenue();
             }
           
@@ -97,11 +101,28 @@ public class mp extends JFrame
         button2.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.setVisible(false);
-                NewUser();
+                frame.dispose();
+                ViewProfile();
             }
           
         });
+        button3.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                ViewOrderHistory();
+            }
+          
+        });
+        button4.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                newOrderMenu();
+            }
+          
+        });
+
     }
     public static void signIn(){
         JFrame frame = new JFrame("Sign in");
@@ -136,11 +157,12 @@ public class mp extends JFrame
         String userAddress = null;
         String userGender = null;
         int userPoints = 0;
+        int userId=0;
         boolean canLeave=false;
     
         try {
             Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-            String query = "SELECT * FROM user WHERE name = ?";
+            String query = "SELECT * FROM users WHERE name = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, nameInput);  
             ResultSet resultSet = pstmt.executeQuery();
@@ -151,14 +173,7 @@ public class mp extends JFrame
                 userAddress = resultSet.getString("address");
                 userGender = resultSet.getString("gender");
                 userPoints = resultSet.getInt("pointsAmount");
-    
-                /*
-                System.out.println("User Found: " + userName);
-                System.out.println("DOB: " + userDob);
-                System.out.println("Address: " + userAddress);
-                System.out.println("Gender: " + userGender);
-                System.out.println("Points: " + userPoints);
-                */
+                userId = resultSet.getInt("userId");
     
                 JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                 canLeave=true;
@@ -176,7 +191,7 @@ public class mp extends JFrame
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        currentUser = new User(userName, userDob, userAddress, userGender, userPoints);
+        currentUser = new User(userName, userDob, userAddress, userGender, userPoints,userId);
         System.out.println(currentUser.toString());
         return canLeave;
     }
@@ -312,6 +327,8 @@ public class mp extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 addUser();
+                frame.dispose();
+                landingPage();
             }
         });
 
@@ -322,6 +339,7 @@ public class mp extends JFrame
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
                 landingPage();
+                
             }
           
         });
@@ -348,7 +366,7 @@ public class mp extends JFrame
         }
         try {
             Connection con = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO user (name, dob, address, gender, pointsAmount) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO users (name, dob, address, gender, pointsAmount) VALUES (?, ?, ?, ?, ?)");
             pstmt.setString(1,sqlName);
             pstmt.setDate(2,Date.valueOf(sqlDob));
             pstmt.setString(3,sqlAddress);
@@ -362,5 +380,116 @@ public class mp extends JFrame
             JOptionPane.showMessageDialog( null,"NO WORK!","!", JOptionPane.ERROR_MESSAGE);
         }
     }
+    public static void ViewProfile(){
+        JFrame frame = new JFrame("Profile");
+        JButton returnButton = new JButton("Return");
+        JLabel idLabel = new JLabel("UserID: " +currentUser.getId());
+        JLabel namLabel = new JLabel("Name: " +currentUser.getName());
+        JLabel ageLabel = new JLabel("Age: " +currentUser.getAge());
+        JLabel addressLabel = new JLabel("Address: " +currentUser.getAddress());
+        JLabel genderLabel = new JLabel("gender: " +currentUser.getGender());
+        JLabel pointsLabel = new JLabel("Points: " +currentUser.getPointAmount());
+
+        frame.add(idLabel);
+        frame.add(namLabel);   
+        frame.add(ageLabel);
+        frame.add(addressLabel);
+        frame.add(genderLabel);
+        frame.add(pointsLabel);
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocation ( 150, 150 );
+
+        frame.add(returnButton);
+
+
+        frame.setVisible(true);
+
+        //return button
+        frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                mainMenu();
+            }
+          
+        });
+
+    }
+    public static void ViewOrderHistory(){
+        JFrame frame = new JFrame("Order History");
+        JButton returnButton = new JButton("Return");
+        JLabel namLabel = new JLabel("Name: " +currentUser.getName());
+        JLabel ageLabel = new JLabel("Age: " +currentUser.getAge());
+        JLabel addressLabel = new JLabel("Address: " +currentUser.getAddress());
+        JLabel genderLabel = new JLabel("gender: " +currentUser.getGender());
+        JLabel pointsLabel = new JLabel("Points: " +currentUser.getPointAmount());
+
+
+        frame.add(namLabel);
+        frame.add(ageLabel);
+        frame.add(addressLabel);
+        frame.add(genderLabel);
+        frame.add(pointsLabel);
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocation ( 150, 150 );
+        frame.add(returnButton);
+        frame.setVisible(true);
+
+        //return button
+        frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                mainMenu();
+            }
+          
+        });
+
+    }
+    public static void newOrderMenu(){
+        JFrame frame = new JFrame("Order Menu");
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(2,2,10,10));
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocation ( 150, 150 );
+
+        JLabel itemLabel = new JLabel("FOOD MAN IM HUN");
+        JButton returnButton = new JButton("Return");
+        menuItem item[] = new menuItem[10];
+        item[1] = new menuItem();
+        item[1].setImgFilePath("C:\\Users\\Thomas Clancy\\Documents\\Y2\\PubSys\\Imgs\\snack.jpg");
+        JLabel label2 = new JLabel( "", item[1].getIcon() ,SwingConstants.CENTER);
+        //frame.add(label2);
+        JPanel itemPannel[] = new JPanel[10];
+        itemPannel[1] = new JPanel();
+        itemPannel[1].add(label2);
+        itemPannel[1].add(itemLabel);
+        frame.add(itemPannel[1]);
+        frame.setVisible(true);
+
+
+
+
+        //return button
+        //frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                mainMenu();
+            }
+          
+        });
+
+    }
+
+
+    
 
 } 

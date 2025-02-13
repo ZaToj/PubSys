@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "testing"
+        "testing",
+        ""
     ],
     "java.project.referencedLibraries": [
         "lib\\mysql-connector-j-9.2.0.jar",

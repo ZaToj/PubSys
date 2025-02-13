@@ -315,6 +315,7 @@ public class mp extends JFrame
         genders.add(male);
         genders.add(female);
         genders.add(tojian);
+        genderPanel.add(new JLabel("Gender: "));
         genderPanel.add(male);
         genderPanel.add(female);
         genderPanel.add(tojian);
@@ -387,7 +388,7 @@ public class mp extends JFrame
         JLabel namLabel = new JLabel("Name: " +currentUser.getName());
         JLabel ageLabel = new JLabel("Age: " +currentUser.getAge());
         JLabel addressLabel = new JLabel("Address: " +currentUser.getAddress());
-        JLabel genderLabel = new JLabel("gender: " +currentUser.getGender());
+        JLabel genderLabel = new JLabel("Gender: " +currentUser.getGender());
         JLabel pointsLabel = new JLabel("Points: " +currentUser.getPointAmount());
 
         frame.add(idLabel);
@@ -458,6 +459,17 @@ public class mp extends JFrame
         frame.setLayout(new GridLayout(2,2,10,10));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
+        menuItem item = new menuItem();
+        item=grabMenuItem(1);
+
+        JPanel itemPanel = new JPanel();
+        for(int i=0;i<1;i++){
+            itemPanel= createMenuItem(item.getItemName(),item.getItemCost(),item.getImgFilePath());
+            frame.add(itemPanel);
+        }
+        frame.setVisible(true);
+
+        /* 
 
         JLabel itemLabel = new JLabel("FOOD MAN IM HUN");
         JButton returnButton = new JButton("Return");
@@ -473,7 +485,7 @@ public class mp extends JFrame
         frame.add(itemPannel[1]);
         frame.setVisible(true);
 
-
+        
 
 
         //return button
@@ -486,8 +498,89 @@ public class mp extends JFrame
             }
           
         });
+        */
 
     }
+    private static JPanel createMenuItem(String name, int price, String imagePath) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(150, 150));
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        String priceText="";
+        priceText = priceText+price;
+
+        ImageIcon icon = new ImageIcon(imagePath); 
+        Image img = icon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(img));
+
+        JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
+        JLabel priceLabel = new JLabel(priceText, SwingConstants.CENTER);
+
+        JButton button = new JButton("Select");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "You selected: " + name);
+            }
+        });
+
+        // Panel for text
+        JPanel textPanel = new JPanel(new GridLayout(2, 1));
+        textPanel.add(nameLabel);
+        textPanel.add(priceLabel);
+
+        // Add components
+        panel.add(imageLabel, BorderLayout.CENTER);
+        panel.add(textPanel, BorderLayout.SOUTH);
+        panel.add(button, BorderLayout.NORTH);
+
+        return panel;
+    }
+    public static menuItem grabMenuItem(int searchId) {
+        String itemName = null;
+        int itemCost = 0;
+        String imgFilePath = null;
+        int itemId=0;
+        boolean canLeave=false;
+        String searchIdString="";
+        searchIdString = searchIdString+ searchId;
+    
+        try {
+            Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            String query = "SELECT * FROM menuItems WHERE itemId = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, searchIdString);  
+            ResultSet resultSet = pstmt.executeQuery();
+    
+            if (resultSet.next()) { 
+                itemName = resultSet.getString("itemName");
+                itemCost = Integer.parseInt(resultSet.getString("itemCost"));
+                imgFilePath = resultSet.getString("imgFilePath");
+                itemId = resultSet.getInt("itemId");
+    
+//              JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
+                canLeave=true;
+            } 
+            else {
+                JOptionPane.showMessageDialog(null, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    
+            // Close resources
+            resultSet.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        menuItem ren = new menuItem(itemId, itemCost, itemName, imgFilePath);
+
+
+        System.out.println(currentUser.toString());
+        return ren;
+    }
+
+
 
 
     

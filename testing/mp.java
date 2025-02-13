@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -456,14 +457,14 @@ public class mp extends JFrame
     public static void newOrderMenu(){
         JFrame frame = new JFrame("Order Menu");
         frame.setSize(400,300);
-        frame.setLayout(new GridLayout(2,2,10,10));
+        frame.setLayout(new GridLayout(0,3,10,10));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
         menuItem item = new menuItem();
-        item=grabMenuItem(1);
 
         JPanel itemPanel = new JPanel();
-        for(int i=0;i<1;i++){
+        for(int i=1;i<10;i++){
+            item=grabMenuItem(i);
             itemPanel= createMenuItem(item.getItemName(),item.getItemCost(),item.getImgFilePath());
             frame.add(itemPanel);
         }
@@ -555,8 +556,10 @@ public class mp extends JFrame
             if (resultSet.next()) { 
                 itemName = resultSet.getString("itemName");
                 itemCost = Integer.parseInt(resultSet.getString("itemCost"));
-                imgFilePath = resultSet.getString("imgFilePath");
+                String relativePath = resultSet.getString("imgFilePath");
                 itemId = resultSet.getInt("itemId");
+                String basePath = System.getProperty("user.dir"); 
+                imgFilePath = basePath + File.separator + relativePath;
     
 //              JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                 canLeave=true;

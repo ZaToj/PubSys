@@ -78,6 +78,7 @@ public class mp extends JFrame
         JButton button4 = new JButton("Order 2");
         JButton button2 = new JButton("View Profile");
         JButton button3 = new JButton("View order History");
+        JButton adminMenuButton = new JButton("Admin");
         //Label button1Label = new Label("Order");
         
         frame.setLayout( new GridLayout(1,4) ); // set frame layout
@@ -99,6 +100,9 @@ public class mp extends JFrame
             }
           
         });
+        if(currentUser.getName().equalsIgnoreCase("toj")){
+            frame.add(adminMenuButton);
+        }
         button2.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
@@ -123,6 +127,14 @@ public class mp extends JFrame
             }
           
         });
+        adminMenuButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                adminOptions();
+            }
+          
+        });
 
     }
     public static void signIn(){
@@ -143,16 +155,24 @@ public class mp extends JFrame
         loginButton.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                boolean con=grabAcc(name.getText());
-                if(con){mainMenu();}
-                frame.setVisible(false);
+                try {
+                    boolean con=grabAcc(name.getText());
+                    if(con){
+                        mainMenu();
+                        frame.setVisible(false);
+                    }
+    
+                } catch (Exception excep) {
+                    excep.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "No Account found!", "Error", JOptionPane.ERROR_MESSAGE);
+        
+                }
             }
-          
         });
         frame.setVisible(true);
 
     }
-    public static boolean grabAcc(String nameInput) {
+    public static boolean grabAcc(String nameInput) throws Exception{
         String userName = null;
         String userDob = null;
         String userAddress = null;
@@ -175,6 +195,7 @@ public class mp extends JFrame
                 userGender = resultSet.getString("gender");
                 userPoints = resultSet.getInt("pointsAmount");
                 userId = resultSet.getInt("userId");
+                currentUser = new User(userName, userDob, userAddress, userGender, userPoints,userId);
     
                 JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                 canLeave=true;
@@ -192,8 +213,7 @@ public class mp extends JFrame
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        currentUser = new User(userName, userDob, userAddress, userGender, userPoints,userId);
-        System.out.println(currentUser.toString());
+        //System.out.println(currentUser.toString());
         return canLeave;
     }
     
@@ -456,7 +476,7 @@ public class mp extends JFrame
     }
     public static void newOrderMenu(){
         JFrame frame = new JFrame("Order Menu");
-        frame.setSize(400,300);
+        frame.setSize(800,600);
         frame.setLayout(new GridLayout(0,3,10,10));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
@@ -469,37 +489,6 @@ public class mp extends JFrame
             frame.add(itemPanel);
         }
         frame.setVisible(true);
-
-        /* 
-
-        JLabel itemLabel = new JLabel("FOOD MAN IM HUN");
-        JButton returnButton = new JButton("Return");
-        menuItem item[] = new menuItem[10];
-        item[1] = new menuItem();
-        item[1].setImgFilePath("C:\\Users\\Thomas Clancy\\Documents\\Y2\\PubSys\\Imgs\\snack.jpg");
-        JLabel label2 = new JLabel( "", item[1].getIcon() ,SwingConstants.CENTER);
-        //frame.add(label2);
-        JPanel itemPannel[] = new JPanel[10];
-        itemPannel[1] = new JPanel();
-        itemPannel[1].add(label2);
-        itemPannel[1].add(itemLabel);
-        frame.add(itemPannel[1]);
-        frame.setVisible(true);
-
-        
-
-
-        //return button
-        //frame.add(returnButton);
-        returnButton.addActionListener(new ActionListener() {
-          
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.dispose();
-                mainMenu();
-            }
-          
-        });
-        */
 
     }
     private static JPanel createMenuItem(String name, int price, String imagePath) {
@@ -542,7 +531,6 @@ public class mp extends JFrame
         int itemCost = 0;
         String imgFilePath = null;
         int itemId=0;
-        boolean canLeave=false;
         String searchIdString="";
         searchIdString = searchIdString+ searchId;
     
@@ -562,7 +550,6 @@ public class mp extends JFrame
                 imgFilePath = basePath + File.separator + relativePath;
     
 //              JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
-                canLeave=true;
             } 
             else {
                 JOptionPane.showMessageDialog(null, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -579,13 +566,103 @@ public class mp extends JFrame
         menuItem ren = new menuItem(itemId, itemCost, itemName, imgFilePath);
 
 
-        System.out.println(currentUser.toString());
+        System.out.println(imgFilePath);
         return ren;
     }
+    public static void adminOptions(){
+        JFrame frame = new JFrame("Admin");
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(0,2,40,40));
+        JButton returnButton = new JButton("Return");
+        returnButton.setSize(10,10);
+        frame.add(returnButton);
+        JButton deleteUser = new JButton("RID O THAT MAN");
+        deleteUser.setSize(10,10);
 
+        frame.add(deleteUser);
 
+        frame.setVisible(true);
 
+        //return button
+        frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                mainMenu();
+            }
+          
+        });
+        //return button
+        deleteUser.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                deleteUser();
+            }
+          
+        });
 
+    }
+    public static void deleteUser(){
+        JFrame frame = new JFrame("Delete User");
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton returnButton = new JButton("Return");
+        frame.setSize(400,300);
+        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocation ( 150, 150 );
+        frame.setVisible(true);
+        
+        //names
+        namePanel.add(new JLabel("Name: "));
+        name= new JTextField(10);
+        namePanel.add(name);
+        frame.add(namePanel);
     
+        //submit
+        submit = new JButton("Submit");
+        frame.add(submit);
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                if(name.getText().equals(currentUser.getName())){
+                    JOptionPane.showMessageDialog(null, "Cant delete Self", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                try {
+                    Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+                    String query = "DELETE FROM users WHERE name = ?";
+                    PreparedStatement pstmt = con.prepareStatement(query);
+                    pstmt.setString(1, name.getText());  
+                    pstmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null, name.getText()+" has been erradicated");
+            
+            
+                    // Close resources
+                    pstmt.close();
+                    con.close();
+                } catch (Exception excep) {
+                    excep.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        
+                
+                
+            }        
+        });
+
+        //return button
+        frame.add(returnButton);
+        returnButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                admin.show();                
+            }
+          
+        });
+    }
 
 } 

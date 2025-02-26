@@ -1,8 +1,6 @@
 import java.time.LocalDate;
 import java.time.Period;
 
-import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
-
 public class dateTest {
     public static void main(String[] args) {
         String dob="2003-11-01";

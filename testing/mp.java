@@ -170,7 +170,6 @@ public class mp extends JFrame
             }
         });
         frame.setVisible(true);
-
     }
     public static boolean grabAcc(String nameInput) throws Exception{
         String userName = null;

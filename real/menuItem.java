@@ -32,7 +32,7 @@ public class menuItem  {
     }
 
 
-    public menuItem getMenuItem(int searchId) {
+    public static menuItem getMenuItem(int searchId) {
         String itemName = null;
         int itemCost = 0;
         String imgFilePath = null;

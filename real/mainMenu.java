@@ -9,6 +9,7 @@ public class mainMenu {
         JButton button = new JButton("Order");
         JButton button2 = new JButton("View Profile");
         JButton button3 = new JButton("View order History");
+        JButton button4 = new JButton("Book a Table");
         JButton adminMenuButton = new JButton("Admin");
         //Label button1Label = new Label("Order");
         
@@ -20,6 +21,7 @@ public class mainMenu {
         frame.add(button);
         frame.add(button2);
         frame.add(button3);
+        frame.add(button4);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //frame.add(button1Label);
         button.addActionListener(new ActionListener() {
@@ -59,6 +61,13 @@ public class mainMenu {
           
         });
 
+        button4.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                bookTable.show(user);
+            }
+        });
     }
     
 }

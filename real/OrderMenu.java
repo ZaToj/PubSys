@@ -16,10 +16,6 @@ public class OrderMenu {
     private static DefaultListModel model = new DefaultListModel<>();
     private static JList list = new JList<>(model);
 
-    public static void main(String[] args) {
-        show(null);
-    }
-
 
     public static void show(User user) {
         JFrame frame = new JFrame("Order Menu");
@@ -51,9 +47,15 @@ public class OrderMenu {
                 worked=processsOrder(user);
                 if(worked){
                     JOptionPane.showMessageDialog(null, "IT WORKED ORDER PLACED");
+                    oc=0;
+                    i=0;
+                    subTotal=0;
+                    model=null;
+                    mainMenu.show(user);
+                    frame.dispose();
                 }
                 else{
-                JOptionPane.showMessageDialog(null, "IT NOT WORKED ORDER NOT PLACED");
+                    JOptionPane.showMessageDialog(null, "IT NOT WORKED ORDER NOT PLACED");
                 }
                 
             }

@@ -71,14 +71,7 @@ public class menuItem  {
         }
         menuItem ren = new menuItem(itemId, itemCost, itemName, imgFilePath);
 
-
         System.out.println(imgFilePath);
         return ren;
-    }
-
-
-    
-
-
-    
+    }    
 }

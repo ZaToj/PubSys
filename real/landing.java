@@ -33,7 +33,7 @@ public class landing {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.setVisible(false);
-                //NewUser();
+                createAccount.show();
             }
           
         });        

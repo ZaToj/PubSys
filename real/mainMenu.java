@@ -13,7 +13,7 @@ public class mainMenu {
         JButton adminMenuButton = new JButton("Admin");
         //Label button1Label = new Label("Order");
         
-        frame.setLayout( new GridLayout(1,4) ); // set frame layout
+        frame.setLayout( new GridLayout(0,1) ); // set frame layout
         frame.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
         frame.setSize ( 900, 900) ;
         frame.setVisible ( true ) ;
@@ -47,7 +47,7 @@ public class mainMenu {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
-                //ViewOrderHistory();
+                ViewOrderHistory.show(user);
                 //to do
             }
           

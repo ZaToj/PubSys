@@ -23,7 +23,7 @@ public class landing {
         login.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.setVisible(false);
+                frame.dispose();
                 signIn.show();
             }
           
@@ -32,7 +32,7 @@ public class landing {
         createAcc.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.setVisible(false);
+                frame.dispose();
                 createAccount.show();
             }
           

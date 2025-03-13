@@ -63,33 +63,13 @@ public class viewUserInfo {
     public static void getUsers(){
         int numUsers=0;
         String name;
-        String query = "SELECT COUNT(*) FROM users ";
-        try {
-            Connection con = DBHelper.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(query);
-            ResultSet res = pstmt.executeQuery();
-            if(res.next()){
-                numUsers = res.getInt(1);
-            }
-            
-        } catch (SQLException e) {
-            try{
-            File f = new File("error.log.txt");
-            PrintWriter W = new PrintWriter(f);
-            e.printStackTrace(W);        
-            }
-            catch(Exception u){
-                u.printStackTrace();
-            }
-        }
-        for(int i =0;i<numUsers;i++){
             try {
-                query="SELECT * FROM users WHERE userId = ?";
+                String query="SELECT * FROM users ";
                 Connection con = DBHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query);
-                pstmt.setInt(1,i);  
+                //pstmt.setInt(1,i);  
                 ResultSet res = pstmt.executeQuery();
-                if(res.next()){
+                while(res.next()){
                     name = res.getString(2);
                     String out="UserId: "+res.getInt(1) + " \nName: "+res.getString(2) + " \nDOB: "+res.getString(3) + " \nAddress: "+res.getString(4) + " \nGender: "+res.getString(5) + " \nPoints: "+res.getInt(6)+" ";
                     JButton personButton = new JButton(name);
@@ -115,4 +95,4 @@ public class viewUserInfo {
     
         }
     }
-}
+

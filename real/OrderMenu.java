@@ -34,9 +34,9 @@ public class OrderMenu {
         returnButton.setSize(4000,40000);
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                clear(user);
                 frame.dispose();
-                mainMenu.show(user);
-            }
+        }
         });
 
         JButton orderButton = new JButton("Order");
@@ -150,30 +150,6 @@ public class OrderMenu {
 
         return panel;
     }
-
-    /*public static boolean processsOrder(User user){
-        order orderObj = new order(oc, order, subTotal,user.getId());
-        for(int i=0;i<oc;i++){
-            System.out.println(order[i].getItemName() +" " +"cost: "+order[i].getItemCost());
-        }
-        System.out.println("Subtotal: "+subTotal);
-        try {
-            Connection con = DBHelper.getConnection();
-            con.setAutoCommit(false);
-            String orderQuery = "INSERT INTO orders (user_id, total_cost) VALUES (?, ?)";
-            PreparedStatement orderStmt = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
-            orderStmt.setInt(1, user.getId());
-            orderStmt.setDouble(2, subTotal);
-            orderStmt.executeUpdate();
-        
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error in insert occured");
-        }
-        
-        
-        return false;
-    }*/
 
     public static boolean processsOrder(User user) {
     if (oc == 0) {

@@ -12,7 +12,8 @@ public class AdminOptions {
         JButton returnButton = new JButton("Return");
         returnButton.setSize(10,10);
         frame.add(returnButton);
-        JButton deleteUser = new JButton("RID O THAT MAN");
+        JButton deleteUser = new JButton("Delete User");
+        JButton viewButton = new JButton("View all users");
         deleteUser.setSize(10,10);
 
         frame.add(deleteUser);
@@ -29,6 +30,16 @@ public class AdminOptions {
             }
           
         });
+        frame.add(returnButton);
+        viewButton.addActionListener(new ActionListener() {
+          
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                viewUserInfo.show(user);
+            }
+          
+        });
+        frame.add(viewButton);
         //return button
         deleteUser.addActionListener(new ActionListener() {
           

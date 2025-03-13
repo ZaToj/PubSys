@@ -7,10 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.sql.*;
 import java.sql.Date;
-import java.util.*;
 
 public class createAccount {
 

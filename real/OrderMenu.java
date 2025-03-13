@@ -13,8 +13,8 @@ public class OrderMenu {
     private static int subTotal = 0;    
     private static JLabel subTotalLabel = new JLabel("Subtotal: $0");
     private static JPanel controlsPanel = new JPanel();
-    private static DefaultListModel model = new DefaultListModel<>();
-    private static JList list = new JList<>(model);
+    private static DefaultListModel<String> model = new DefaultListModel<>();
+    private static JList<String> list = new JList<String>(model);
 
 
     public static void show(User user) {
@@ -47,11 +47,7 @@ public class OrderMenu {
                 worked=processsOrder(user);
                 if(worked){
                     JOptionPane.showMessageDialog(null, "IT WORKED ORDER PLACED");
-                    oc=0;
-                    i=0;
-                    subTotal=0;
-                    model=null;
-                    mainMenu.show(user);
+                    clear(user);
                     frame.dispose();
                 }
                 else{
@@ -69,9 +65,7 @@ public class OrderMenu {
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(subTotalLabel);
         controlsPanel.add(returnButton);
-//        controlsPanel.add(Box.createGlue()); // Push everything to the top
-
-        
+        // controlsPanel.add(Box.createGlue()); // Push everything to the top
 
         // Main Options Panel
         JPanel optionsPanel = new JPanel();
@@ -92,6 +86,19 @@ public class OrderMenu {
         frame.add(optionsPanel, BorderLayout.CENTER); // Main menu items
 
         frame.setVisible(true);
+    }
+
+    private static void clear(User user){
+
+        oc=0;
+        i=0;
+        subTotal=0;
+        subTotalLabel = new JLabel("Subtotal: $0");
+        controlsPanel = new JPanel();
+        model = new DefaultListModel<>();
+        list = new JList<>(model);
+        mainMenu.show(user);
+        
     }
 
     private static JPanel createMenuItem(String name, int price, String imagePath, int itemId) {
@@ -183,16 +190,14 @@ public class OrderMenu {
 
     try {
         con = DBHelper.getConnection();
-        con.setAutoCommit(false);  // Start transaction
+        con.setAutoCommit(false);  
 
-        // Insert into orders table
         String orderQuery = "INSERT INTO orders (userid, totalcost) VALUES (?, ?)";
         orderStmt = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
         orderStmt.setInt(1, user.getId());
         orderStmt.setDouble(2, subTotal);
         orderStmt.executeUpdate();
 
-        // Get generated order ID
         rs = orderStmt.getGeneratedKeys();
         if (rs.next()) {
             orderId = rs.getInt(1);
@@ -200,7 +205,7 @@ public class OrderMenu {
             throw new SQLException("Failed to retrieve order ID.");
         }
 
-        // Insert order items
+        
         String itemQuery = "INSERT INTO orderitems (orderid, itemid, quantity) VALUES (?, ?, ?)";
         itemStmt = con.prepareStatement(itemQuery);
         
@@ -211,8 +216,8 @@ public class OrderMenu {
             itemStmt.addBatch();  // Add to batch
         }
 
-        itemStmt.executeBatch();  // Execute batch insert
-        con.commit();  // Commit transaction
+        itemStmt.executeBatch();  
+        con.commit();  
         success = true;
 
         JOptionPane.showMessageDialog(null, "Order placed successfully!");

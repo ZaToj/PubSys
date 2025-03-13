@@ -36,7 +36,7 @@ public class landing {
                 createAccount.show();
             }
           
-        });        
+        });
         frame.setVisible(true);
     }
 

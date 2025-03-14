@@ -15,6 +15,8 @@ public class ViewProfile {
         JLabel addressLabel = new JLabel("Address: " +user.getAddress());
         JLabel genderLabel = new JLabel("Gender: " +user.getGender());
         JLabel pointsLabel = new JLabel("Points: " +user.getPointAmount());
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
 
         frame.add(idLabel);
         frame.add(namLabel);   

@@ -24,6 +24,7 @@ public class OrderMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(150, 150);
 
+
         // Sidebar (Control Panel)
         controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
         controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
@@ -84,6 +85,8 @@ public class OrderMenu {
         // Add panels to frame
         frame.add(controlsPanel, BorderLayout.WEST); // Sidebar
         frame.add(optionsPanel, BorderLayout.CENTER); // Main menu items
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
 
         frame.setVisible(true);
     }

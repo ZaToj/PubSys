@@ -15,6 +15,7 @@ public class AdminOptions {
         JButton deleteUser = new JButton("Delete User");
         JButton viewButton = new JButton("View all users");
         deleteUser.setSize(10,10);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
         frame.add(deleteUser);
 

@@ -17,6 +17,8 @@ public class ViewOrderHistory {
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocation(150, 150);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
 
         Object[][] orderData = fetchUserOrders(user.getId());
         String[] orderColumnNames = {"Order ID", "Total Cost", "Order Date"};

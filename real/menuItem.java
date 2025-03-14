@@ -55,7 +55,6 @@ public class menuItem  {
                 String basePath = System.getProperty("user.dir"); 
                 imgFilePath = basePath + File.separator + relativePath;
     
-            //JOptionPane.showMessageDialog(null, "Welcome back, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
             } 
             else {
                 JOptionPane.showMessageDialog(null, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -70,8 +69,6 @@ public class menuItem  {
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         menuItem ren = new menuItem(itemId, itemCost, itemName, imgFilePath);
-
-        System.out.println(imgFilePath);
         return ren;
     }    
 }

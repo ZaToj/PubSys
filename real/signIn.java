@@ -17,6 +17,7 @@ public class signIn {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
 
+
         username.add(new JLabel("Name: "));
         name= new JTextField(10);
         username.add(name);

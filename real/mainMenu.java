@@ -18,6 +18,7 @@ public class mainMenu {
         frame.setSize ( 900, 900) ;
         frame.setVisible ( true ) ;
         frame.setLocation ( 150, 150 );
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.add(button);
         frame.add(button2);
         frame.add(button3);

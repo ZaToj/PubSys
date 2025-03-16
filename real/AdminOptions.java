@@ -94,21 +94,17 @@ public class AdminOptions {
                     // Close resources
                     pstmt.close();
                     con.close();
-                } catch (Exception excep) {
-                    excep.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        
-                
-                
+                    }catch (Exception excep) {
+                        excep.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } 
             }        
         });
 
         //return button
         frame.add(returnButton);
         returnButton.addActionListener(new ActionListener() {
-          
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
                 AdminOptions.show(user);                

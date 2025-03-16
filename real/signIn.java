@@ -3,6 +3,8 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLDataException;
+import java.sql.SQLException;
 
 public class signIn {
     public static void show(){
@@ -27,16 +29,25 @@ public class signIn {
         loginButton.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                try {
-                    user.getUser(name.getText());
-                    if(user!=null){
-                        mainMenu.show(user);
-                        frame.dispose();
+                if(!name.getText().equals("")){
+                    try {
+                        user.getUser(name.getText());
+                        if(user.getName()!=null){
+                            mainMenu.show(user);
+                            frame.dispose();
+                        }
+                    } catch (SQLException excep) {
+                        excep.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "No Account found!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (Exception excep) {
-                    excep.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "No Account found!", "Error", JOptionPane.ERROR_MESSAGE);
+                    catch(Exception excep){
+    
+                    }
                 }
+                else{
+                    JOptionPane.showMessageDialog(null, "Enter a valid Name", "", 0);
+                }
+                
             }
         });
         frame.setVisible(true);

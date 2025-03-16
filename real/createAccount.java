@@ -8,7 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class createAccount {
 
@@ -68,10 +69,21 @@ public class createAccount {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addUser();
-                frame.dispose();
-                landing.show();
-            }
+                try{
+                    validateDate(dob.getText());
+                    if(!name.getText().equals("")&&!dob.getText().equals("")&&!address.getText().equals("")&&(male.isSelected()||female.isSelected()||tojian.isSelected())){
+                        addUser();
+                        frame.dispose();
+                        landing.show();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Please make sure to fill all the fields", "Error!", 0);
+                    }
+                    }
+                    catch(InvalidDateFormatException ex){
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Invalid Date Format", JOptionPane.ERROR_MESSAGE);
+                    }
+        }
         });
 
         //return button
@@ -87,6 +99,16 @@ public class createAccount {
         });
         
     }
+    public static void validateDate(String date) throws InvalidDateFormatException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(date);
+        } catch (ParseException e) {
+            throw new InvalidDateFormatException("Please enter the date in YYYY-MM-DD format.");
+        }
+    }
+
     public static void addUser(){
         // ill do this later 
         //sql stuff/

@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `pubsys` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `pubsys`;
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: pubsys
@@ -18,29 +16,31 @@ USE `pubsys`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `menuitems`
+-- Table structure for table `orders`
 --
 
-DROP TABLE IF EXISTS `menuitems`;
+DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `menuitems` (
-  `itemId` int NOT NULL AUTO_INCREMENT,
-  `itemName` varchar(45) DEFAULT NULL,
-  `itemCost` int DEFAULT NULL,
-  `imgFilePath` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`itemId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `orders` (
+  `orderid` int NOT NULL AUTO_INCREMENT,
+  `userid` int DEFAULT NULL,
+  `totalcost` decimal(10,2) DEFAULT NULL,
+  `orderdate` date DEFAULT NULL,
+  PRIMARY KEY (`orderid`),
+  KEY `userid_idx` (`userid`),
+  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `users` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menuitems`
+-- Dumping data for table `orders`
 --
 
-LOCK TABLES `menuitems` WRITE;
-/*!40000 ALTER TABLE `menuitems` DISABLE KEYS */;
-INSERT INTO `menuitems` VALUES (1,'burger',1000,'Imgs\\snack.jpg'),(2,'chippies',10,'Imgs\\chips.jpg'),(3,'lasagna',16,'Imgs\\lasagna.jpg'),(4,'Soup',5,'Imgs\\soup.jpg'),(5,'sambo',14,'Imgs\\sambo.jpg'),(6,'sosig',1,'Imgs\\sosig.jpg'),(7,'cake',4,'Imgs\\cake.jpg'),(8,'red Sauce',9,'Imgs\\redSauce.jpg'),(9,'pringes',122,'Imgs\\pringles.jpg');
-/*!40000 ALTER TABLE `menuitems` ENABLE KEYS */;
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (2,1,146.00,NULL),(3,1,2024.00,NULL),(4,1,2014.00,NULL),(5,1,10005.00,NULL),(6,1,58.00,NULL),(7,1,6000.00,NULL),(8,12,36.00,NULL),(9,1,2062.00,NULL),(10,1,1066.00,NULL);
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-26 18:02:02
+-- Dump completed on 2025-04-01  2:52:47

@@ -89,7 +89,7 @@ public class viewUserInfo {
     public static void getUsers(){
         String name;
             try {
-                String query="SELECT * FROM users ";
+                String query="SELECT userId,name,dob,address,gender,pointsAmount FROM users ";
                 Connection con = DBHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query);
                 //pstmt.setInt(1,i);  

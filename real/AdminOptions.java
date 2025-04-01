@@ -13,7 +13,7 @@ public class AdminOptions {
         returnButton.setSize(10,10);
         frame.add(returnButton);
         JButton deleteUser = new JButton("Delete User");
-        JButton viewButton = new JButton("View all users");
+        JButton viewButton = new JButton("View/Delete users");
         deleteUser.setSize(10,10);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
@@ -94,21 +94,17 @@ public class AdminOptions {
                     // Close resources
                     pstmt.close();
                     con.close();
-                } catch (Exception excep) {
-                    excep.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        
-                
-                
+                    }catch (Exception excep) {
+                        excep.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } 
             }        
         });
 
         //return button
         frame.add(returnButton);
         returnButton.addActionListener(new ActionListener() {
-          
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
                 AdminOptions.show(user);                

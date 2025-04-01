@@ -1,7 +1,7 @@
 package tempPasswordChanger;
 public class maker{
     public static void main(String[] args) {
-    String conName="chelskeel24!";
+    String conName="spirithalloween";
     conName=passHasher(conName);
     System.out.println(conName);
 }
@@ -15,7 +15,9 @@ public static  String passHasher(String passIn){
         int preBinary=passIn.charAt(i);
         concat+=preBinary;
     }
-    concat=concat.substring(0,6);
+    String concat1=concat.substring(0,3);
+    String concat2=concat.substring(concat.length()-3);
+    concat=concat1+concat2;
     int input=Integer.parseInt(concat);
     String temp="";
     while (input!=0){

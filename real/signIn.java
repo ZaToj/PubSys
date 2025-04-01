@@ -27,7 +27,7 @@ public class signIn {
         frame.add(username);
 
         password.add(new JLabel("Password: "));
-        passwordText= new JTextField(10);
+        passwordText= new JPasswordField(10);
         password.add(passwordText);
         frame.add(password);
 
@@ -38,7 +38,6 @@ public class signIn {
                 if(!name.getText().equals("")&&!passwordText.getText().equals("")){
                     try {
                         user.getUser(name.getText(),passwordText.getText());
-                        System.out.println(user.toString());
                         if(user.getName()!=null){
                             mainMenu.show(user);
                             frame.dispose();
@@ -48,7 +47,7 @@ public class signIn {
                         JOptionPane.showMessageDialog(null, "No Account found!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     catch(Exception excep){
-
+                        excep.printStackTrace();
                     }
                 }
                 else{

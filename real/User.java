@@ -65,7 +65,9 @@ public class User {
             int preBinary=passIn.charAt(i);
             concat+=preBinary;
         }
-        concat=concat.substring(0,6);
+        String concat1=concat.substring(0,3);
+        String concat2=concat.substring(concat.length()-3);
+        concat=concat1+concat2;
         int input=Integer.parseInt(concat);
         String temp="";
         while (input!=0){
@@ -82,7 +84,6 @@ public class User {
             out += temp.charAt(i);
         }
         setPass(out);
-        System.out.println(out);
         return out;
     }
     public User getUser(String nameInput,String inPass) throws Exception{

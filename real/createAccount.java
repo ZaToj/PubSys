@@ -173,7 +173,9 @@ public class createAccount {
             int preBinary=passIn.charAt(i);
             concat+=preBinary;
         }
-        concat=concat.substring(0,6);
+        String concat1=concat.substring(0,3);
+        String concat2=concat.substring(concat.length()-3);
+        concat=concat1+concat2;
         int input=Integer.parseInt(concat);
         String temp="";
         while (input!=0){

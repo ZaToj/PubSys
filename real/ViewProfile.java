@@ -76,7 +76,7 @@ public class ViewProfile {
                 frame.dispose();
                 sidebarPanel = null;
                 contentPanel = null;
-                AdminOptions.show(user);
+                mainMenu.show(user);
             }
         });
 

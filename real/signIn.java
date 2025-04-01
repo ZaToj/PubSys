@@ -9,9 +9,10 @@ import java.sql.SQLException;
 public class signIn {
     public static void show(){
         User user = new User();
-        JTextField name;
+        JTextField name,passwordText;
         JFrame frame = new JFrame("Sign in");
         JPanel username = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel password = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton loginButton = new JButton("LOG IN MAN PLEASEEEEEEEE");
 
         frame.setSize(400,300);
@@ -25,13 +26,19 @@ public class signIn {
         username.add(name);
         frame.add(username);
 
+        password.add(new JLabel("Password: "));
+        passwordText= new JTextField(10);
+        password.add(passwordText);
+        frame.add(password);
+
         frame.add(loginButton);
         loginButton.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
-                if(!name.getText().equals("")){
+                if(!name.getText().equals("")&&!passwordText.getText().equals("")){
                     try {
-                        user.getUser(name.getText());
+                        user.getUser(name.getText(),passwordText.getText());
+                        System.out.println(user.toString());
                         if(user.getName()!=null){
                             mainMenu.show(user);
                             frame.dispose();
@@ -41,11 +48,11 @@ public class signIn {
                         JOptionPane.showMessageDialog(null, "No Account found!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     catch(Exception excep){
-    
+
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Enter a valid Name", "", 0);
+                    JOptionPane.showMessageDialog(null, "Please fill in all data", "", 0);
                 }
                 
             }

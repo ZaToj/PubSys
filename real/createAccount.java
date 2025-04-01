@@ -13,19 +13,21 @@ import java.text.SimpleDateFormat;
 
 public class createAccount {
 
-    private static JTextField name, dob, address;
+    private static JTextField name, dob, address,password,conPassword;
     private static JRadioButton male, female, tojian;
     private static JButton submit;
 
         public static void show(){
         JFrame frame = new JFrame("New User");
         JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel passPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel conPassPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel dobPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton returnButton = new JButton("Return");
         frame.setSize(400,300);
-        frame.setLayout(new GridLayout(6,2,10,10));
+        frame.setLayout(new GridLayout(8,2,10,10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation ( 150, 150 );
         frame.setVisible(true);
@@ -35,6 +37,18 @@ public class createAccount {
         name= new JTextField(10);
         namePanel.add(name);
         frame.add(namePanel);
+        
+        //Password
+        passPanel.add(new JLabel("Password: "));
+        password= new JPasswordField(10);
+        passPanel.add(password);
+        frame.add(passPanel);
+        //ConPassword
+        conPassPanel.add(new JLabel("Confirm Password: "));
+        conPassword= new JPasswordField(10);
+        conPassPanel.add(conPassword);
+        frame.add(conPassPanel);
+
         
         //birth
         dobPanel.add(new JLabel("Date of birth: (YYYY-MM-DD)"));
@@ -71,16 +85,23 @@ public class createAccount {
             public void actionPerformed(ActionEvent e) {
                 try{
                     validateDate(dob.getText());
-                    if(!name.getText().equals("")&&!dob.getText().equals("")&&!address.getText().equals("")&&(male.isSelected()||female.isSelected()||tojian.isSelected())){
-                        addUser();
-                        frame.dispose();
-                        landing.show();
+                    if(conPassword.getText().equals(password.getText())){
+                        if(!name.getText().equals("")&&!dob.getText().equals("")&&!address.getText().equals("")&&(male.isSelected()||female.isSelected()||tojian.isSelected())){
+                            addUser();
+                            frame.dispose();
+                            landing.show();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Please make sure to fill all the fields", "Error!", 0);
+                        }
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "Please make sure to fill all the fields", "Error!", 0);
+                        JOptionPane.showMessageDialog(null, "Passwords do not match!", "Passwords must match", 0);
+                        conPassword.setText("");
+                        password.setText("");
                     }
-                    }
-                    catch(InvalidDateFormatException ex){
+                }
+                catch(InvalidDateFormatException ex){
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "Invalid Date Format", JOptionPane.ERROR_MESSAGE);
                     }
         }
@@ -110,13 +131,12 @@ public class createAccount {
     }
 
     public static void addUser(){
-        // ill do this later 
-        //sql stuff/
-        //sql i love you
         String sqlName = name.getText();
         String sqlDob = dob.getText();
         String sqlAddress = address.getText();
         String sqlGender="";
+        String sqlpassword = passHasher(password.getText());
+
         if(male.isSelected()){
             sqlGender="Male";
         }     
@@ -128,12 +148,13 @@ public class createAccount {
         }
         try {
             Connection con = DBHelper.getConnection();
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO users (name, dob, address, gender, pointsAmount) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO users (name,password, dob, address, gender, pointsAmount) VALUES (?, ?, ?, ?, ?, ?)");
             pstmt.setString(1,sqlName);
-            pstmt.setDate(2,Date.valueOf(sqlDob));
-            pstmt.setString(3,sqlAddress);
-            pstmt.setString(4,sqlGender);
-            pstmt.setInt(5,0);
+            pstmt.setString(2,sqlpassword);            
+            pstmt.setDate(3,Date.valueOf(sqlDob));
+            pstmt.setString(4,sqlAddress);
+            pstmt.setString(5,sqlGender);
+            pstmt.setInt(6,0);
             pstmt.executeUpdate();
 
 
@@ -142,5 +163,35 @@ public class createAccount {
             JOptionPane.showMessageDialog( null,"NO WORK!","!", JOptionPane.ERROR_MESSAGE);
         }
     }
+    public static String passHasher(String passIn){
+        //
+        //takes in string and gets the acscii value of each char, concatanates them to a string and takes the frist 6 which is then turned to binar (20 digits)
+        //
+        String out="";
+        String concat="";
+        for (int i = 0; i < passIn.length(); i++){
+            int preBinary=passIn.charAt(i);
+            concat+=preBinary;
+        }
+        concat=concat.substring(0,6);
+        int input=Integer.parseInt(concat);
+        String temp="";
+        while (input!=0){
+            if (input%2==0){
+                temp+=0;
+            }
+            else{
+                temp+=1;
+            }
+            input =input/2;
+        }
+        System.out.println(temp);
+        for(int i=temp.length()-1; i !=-1
+        ;i--){
+            out += temp.charAt(i);
+        }
+        return out;
+    }
+
     
 }

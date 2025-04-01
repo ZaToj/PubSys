@@ -13,7 +13,7 @@ public class AdminOptions {
         returnButton.setSize(10,10);
         frame.add(returnButton);
         JButton deleteUser = new JButton("Delete User");
-        JButton viewButton = new JButton("View all users");
+        JButton viewButton = new JButton("View/Delete users");
         deleteUser.setSize(10,10);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 

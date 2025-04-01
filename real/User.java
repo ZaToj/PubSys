@@ -14,17 +14,19 @@ public class User {
     private int id;
     private String address;
     private String gender;
+    private String password;
     private int pointAmount;
     
     public User(){}
 
-    public User(String name,String dob,String address,String gender,int pointAmount,int id){
+    public User(String name,String password, String dob,String address,String gender,int pointAmount,int id){
         this.name = name;
         this.dob = dob;
         this.address = address;
         this.gender = gender;
         this.pointAmount = pointAmount;
         this.id = id;
+        this.password=password;
         this.age = ageCAlc(dob);//will fix with an actual calc eventually
     }
 
@@ -35,6 +37,8 @@ public class User {
     public String getDob(){return dob;} 
     public String getGender(){return gender;} 
     public int getPointAmount(){return pointAmount;} 
+    
+    public void setPass(String password){password=this.password;} 
 
 
 
@@ -49,8 +53,39 @@ public class User {
         //System.out.println(age3);
         
         return age3;
+    }    
+
+    public  String passHasher(String passIn){
+        //
+        //takes in string and gets the acscii value of each char, concatanates them to a string and takes the frist 6 which is then turned to binar (20 digits)
+        //
+        String out="";
+        String concat="";
+        for (int i = 0; i < passIn.length(); i++){
+            int preBinary=passIn.charAt(i);
+            concat+=preBinary;
+        }
+        concat=concat.substring(0,6);
+        int input=Integer.parseInt(concat);
+        String temp="";
+        while (input!=0){
+            if (input%2==0){
+                temp+=0;
+            }
+            else{
+                temp+=1;
+            }
+            input =input/2;
+        }
+        for(int i=temp.length()-1; i !=-1
+        ;i--){
+            out += temp.charAt(i);
+        }
+        setPass(out);
+        System.out.println(out);
+        return out;
     }
-    public User getUser(String nameInput) throws Exception{
+    public User getUser(String nameInput,String inPass) throws Exception{
         /* 
         String userDob = null;
         String userAddress = null;
@@ -62,25 +97,31 @@ public class User {
     
         try {
             Connection con = DBHelper.getConnection();
-            String query = "SELECT * FROM users WHERE name = ?";
+            String query = "SELECT * FROM users WHERE name = ? AND password = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, nameInput);  
+            pstmt.setString(2, passHasher(inPass));  
             ResultSet resultSet = pstmt.executeQuery();
     
             if (resultSet.next()) { 
-                User user = new User(resultSet.getString("name"), 
+                User user = new User(
+                    resultSet.getString("name"),
+                    resultSet.getString("password"), 
                     resultSet.getString("dob"), 
                     resultSet.getString("address"), 
                     resultSet.getString("gender"), 
                     resultSet.getInt("pointsAmount"), 
                     resultSet.getInt("userId")
                     );
+                     
                 name = resultSet.getString("name");
+                password = resultSet.getString("password");
                 dob = resultSet.getString("dob");
                 address = resultSet.getString("address");
                 gender = resultSet.getString("gender");
                 pointAmount = resultSet.getInt("pointsAmount");
                 id = resultSet.getInt("userId");
+                
 
                 JOptionPane.showMessageDialog(null, "Welcome back, " + user.getName() + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                 return user;

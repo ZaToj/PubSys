@@ -148,7 +148,7 @@ public class createAccount {
         }
         try {
             Connection con = DBHelper.getConnection();
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO users (name,password, dob, address, gender, pointsAmount) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO users (name,password, dob, address, gender, pointsAmount,isAdmin) VALUES (?, ?, ?, ?, ?, ?,0)");
             pstmt.setString(1,sqlName);
             pstmt.setString(2,sqlpassword);            
             pstmt.setDate(3,Date.valueOf(sqlDob));

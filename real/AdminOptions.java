@@ -12,7 +12,7 @@ public class AdminOptions {
         JButton returnButton = new JButton("Return");
         returnButton.setSize(10,10);
         frame.add(returnButton);
-        JButton deleteUser = new JButton("Delete User");
+        JButton deleteUser = new JButton("Make User Admin");
         JButton viewButton = new JButton("View/Delete users");
         deleteUser.setSize(10,10);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -46,7 +46,7 @@ public class AdminOptions {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
-                deleteUser(user);
+                adminMaker.show(user);
             }
           
         });

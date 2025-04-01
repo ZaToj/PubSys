@@ -33,7 +33,7 @@ public class mainMenu {
             }
           
         });
-        if(user.getName().equalsIgnoreCase("toj")){
+        if(user.isAdmin()){
             frame.add(adminMenuButton);
         }
         button2.addActionListener(new ActionListener() {

@@ -16,10 +16,11 @@ public class User {
     private String gender;
     private String password;
     private int pointAmount;
+    private boolean isAdmin;
     
     public User(){}
 
-    public User(String name,String password, String dob,String address,String gender,int pointAmount,int id){
+    public User(String name,String password, String dob,String address,String gender,int pointAmount,int id,boolean isAdmin){
         this.name = name;
         this.dob = dob;
         this.address = address;
@@ -28,6 +29,7 @@ public class User {
         this.id = id;
         this.password=password;
         this.age = ageCAlc(dob);//will fix with an actual calc eventually
+        this.isAdmin=isAdmin;
     }
 
     public String getName(){return name;} 
@@ -37,6 +39,7 @@ public class User {
     public String getDob(){return dob;} 
     public String getGender(){return gender;} 
     public int getPointAmount(){return pointAmount;} 
+    public boolean isAdmin(){return isAdmin;} 
     
     public void setPass(String password){password=this.password;} 
 
@@ -112,7 +115,8 @@ public class User {
                     resultSet.getString("address"), 
                     resultSet.getString("gender"), 
                     resultSet.getInt("pointsAmount"), 
-                    resultSet.getInt("userId")
+                    resultSet.getInt("userId"),
+                    resultSet.getBoolean("isAdmin")
                     );
                      
                 name = resultSet.getString("name");
@@ -122,6 +126,7 @@ public class User {
                 gender = resultSet.getString("gender");
                 pointAmount = resultSet.getInt("pointsAmount");
                 id = resultSet.getInt("userId");
+                isAdmin = resultSet.getBoolean("isAdmin");
                 
 
                 JOptionPane.showMessageDialog(null, "Welcome back, " + user.getName() + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);

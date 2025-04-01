@@ -3,7 +3,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.SQLDataException;
+//import java.sql.SQLDataException;
 import java.sql.SQLException;
 
 public class signIn {
@@ -56,8 +56,8 @@ public class signIn {
                 
             }
         });
+        frame.getRootPane().setDefaultButton(loginButton);
         frame.setVisible(true);
-
     }
     
 }

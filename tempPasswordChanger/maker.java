@@ -1,7 +1,7 @@
 package tempPasswordChanger;
 public class maker{
     public static void main(String[] args) {
-    String conName="spirithalloween";
+    String conName="maxcatman123";
     conName=passHasher(conName);
     System.out.println(conName);
 }

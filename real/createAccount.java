@@ -84,6 +84,7 @@ public class createAccount {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
+                    validatePass(password.getText());
                     validateDate(dob.getText());
                     if(conPassword.getText().equals(password.getText())){
                         if(!name.getText().equals("")&&!dob.getText().equals("")&&!address.getText().equals("")&&(male.isSelected()||female.isSelected()||tojian.isSelected())){
@@ -102,8 +103,10 @@ public class createAccount {
                     }
                 }
                 catch(InvalidDateFormatException ex){
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Invalid Date Format", JOptionPane.ERROR_MESSAGE);
-                    }
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Invalid Date Format", JOptionPane.ERROR_MESSAGE);
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Invalid password  ", JOptionPane.ERROR_MESSAGE);
+                }
         }
         });
 
@@ -127,6 +130,11 @@ public class createAccount {
             dateFormat.parse(date);
         } catch (ParseException e) {
             throw new InvalidDateFormatException("Please enter the date in YYYY-MM-DD format.");
+        }
+    }    
+    public static void validatePass(String pass) throws Exception {
+        if(pass.length()>6){
+            throw new Exception("Ensure password is longer than 6 chaacetrs");
         }
     }
 

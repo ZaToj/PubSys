@@ -27,6 +27,9 @@ CREATE TABLE `menuitems` (
   `itemName` varchar(45) DEFAULT NULL,
   `itemCost` int DEFAULT NULL,
   `imgFilePath` varchar(45) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `hasAlco` int DEFAULT NULL,
+  `pointsAmount` int DEFAULT NULL,
   PRIMARY KEY (`itemId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -37,7 +40,7 @@ CREATE TABLE `menuitems` (
 
 LOCK TABLES `menuitems` WRITE;
 /*!40000 ALTER TABLE `menuitems` DISABLE KEYS */;
-INSERT INTO `menuitems` VALUES (1,'burger',1000,'Imgs\\snack.jpg'),(2,'chippies',10,'Imgs\\chips.jpg'),(3,'lasagna',16,'Imgs\\lasagna.jpg'),(4,'Soup',5,'Imgs\\soup.jpg'),(5,'sambo',14,'Imgs\\sambo.jpg'),(6,'sosig',1,'Imgs\\sosig.jpg'),(7,'cake',4,'Imgs\\cake.jpg'),(8,'red Sauce',9,'Imgs\\redSauce.jpg'),(9,'pringes',122,'Imgs\\pringles.jpg');
+INSERT INTO `menuitems` VALUES (1,'burger',1000,'Imgs\\snack.jpg','food',0,10),(2,'chippies',10,'Imgs\\chips.jpg','food',0,4),(3,'lasagna',16,'Imgs\\lasagna.jpg','food',0,3),(4,'Soup',5,'Imgs\\soup.jpg','food',0,7),(5,'sambo',14,'Imgs\\sambo.jpg','food',0,3),(6,'sosig',1,'Imgs\\sosig.jpg','food',0,7),(7,'cake',4,'Imgs\\cake.jpg','food',0,9),(8,'red Sauce',9,'Imgs\\redSauce.jpg','food',0,2),(9,'pringes',122,'Imgs\\pringles.jpg','food',0,4);
 /*!40000 ALTER TABLE `menuitems` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-01  2:52:47
+-- Dump completed on 2025-04-01 16:07:32

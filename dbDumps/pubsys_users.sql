@@ -30,8 +30,9 @@ CREATE TABLE `users` (
   `address` varchar(45) DEFAULT NULL,
   `gender` varchar(45) DEFAULT NULL,
   `pointsAmount` int DEFAULT NULL,
+  `isAdmin` int DEFAULT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +41,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'toj','','2003-11-01 00:00:00','Swag City','Tojian',0),(2,'michael','','2004-09-13 00:00:00','brownsville','Male',0),(3,'keelie','11110001111101000001','2005-06-09 00:00:00','14yurman','Female',0),(4,'darian byrne','','2004-12-01 00:00:00','Carlow','Tojian',0),(5,'Brigid','','1979-01-05 00:00:00','ballycoolan','Tojian',0),(12,'Toj 2','','2003-04-12 00:00:00','Space','Tojian',0),(13,'Sab','','2003-07-13 00:00:00','Denmark?','Female',0),(14,'Jose','11011010111101001','2003-06-23 00:00:00','denmark','Female',0);
+INSERT INTO `users` VALUES (1,'toj','11010100111111011','2003-11-01 00:00:00','Swag City','Tojian',63,1),(2,'michael','','2004-09-13 00:00:00','brownsville','Male',0,0),(3,'keelie','11100000110100110','2005-06-09 00:00:00','14yurman','Female',0,1),(4,'darian byrne','','2004-12-01 00:00:00','Carlow','Tojian',0,0),(5,'Brigid','','1979-01-05 00:00:00','ballycoolan','Tojian',0,0),(13,'Sab','','2003-07-13 00:00:00','Denmark?','Female',0,0),(14,'Jose','11011011110100111','2003-06-23 00:00:00','denmark','Female',0,0),(15,'cian','11001101010010110','2005-02-15 00:00:00','newbridge','Male',0,0),(16,'diddy','11101111101110111101','1939-06-11 00:00:00','twin towers','Tojian',0,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-01  2:52:47
+-- Dump completed on 2025-04-01 16:07:31

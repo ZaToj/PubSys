@@ -44,9 +44,14 @@ public class OrderMenu {
         orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         orderButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                int pointsGained=0;
                 boolean worked=false;
                 worked=processsOrder(user);
                 if(worked){
+                    for(int i=0;i<oc;i++){
+                        pointsGained+=order[i].getPointAmount();
+                    }
+                    givePoints(user,pointsGained);
                     JOptionPane.showMessageDialog(null, "IT WORKED ORDER PLACED");
                     clear(user);
                     frame.dispose();
@@ -77,7 +82,7 @@ public class OrderMenu {
         for (int i = 1; i < 10; i++) {
             menuItem item = menuItem.getMenuItem(i);
             if (item != null) {
-                JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(), item.getImgFilePath(), item.getItemId());
+                JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(), item.getImgFilePath(), item.getItemId(),item.getPointAmount());
                 optionsPanel.add(itemPanel);
             }
         }
@@ -91,6 +96,27 @@ public class OrderMenu {
         frame.setVisible(true);
     }
 
+    private static void givePoints(User user, int in){
+        int points=user.getPointAmount()+in;
+        user.setPointsAmount(points);
+        try {
+
+            Connection con = DBHelper.getConnection();
+            String sql = "UPDATE users SET pointsAmount = ? WHERE userId = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+
+            pstmt.setInt(1, points);
+            pstmt.setInt(2, user.getId());
+            pstmt.executeUpdate();
+
+
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error in the adding points!", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
     private static void clear(User user){
 
         oc=0;
@@ -104,9 +130,9 @@ public class OrderMenu {
         
     }
 
-    private static JPanel createMenuItem(String name, int price, String imagePath, int itemId) {
+    private static JPanel createMenuItem(String name, int price, String imagePath, int itemId,int pointAmount) {
         JPanel panel = new JPanel();
-        menuItem tempItem = new menuItem(itemId, price, name, imagePath);
+        menuItem tempItem = new menuItem(itemId, price, name, imagePath,pointAmount);
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(150, 150));
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -166,6 +192,7 @@ public class OrderMenu {
     ResultSet rs = null;
     boolean success = false;
     int orderId = -1;
+    int pointValue=0;
 
     try {
         con = DBHelper.getConnection();
@@ -221,7 +248,5 @@ public class OrderMenu {
         }
     }
     return success;
-}
-
-    
+}   
 }

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class mainMenu {
     public static void show(User user){
+
+        //add in user update for everytime they come back here
         JFrame frame = new JFrame("Main Menu");
         JButton button = new JButton("Order");
         JButton button2 = new JButton("View Profile");
@@ -31,7 +33,6 @@ public class mainMenu {
                 frame.dispose();
                 OrderMenu.show(user);
             }
-          
         });
         if(user.isAdmin()){
             frame.add(adminMenuButton);

@@ -8,20 +8,23 @@ import javax.swing.*;
 public class menuItem  {
     private int itemId;
     private int itemCost;
+    private int pointAmount;
     private String itemName;
     private Icon myPicture;
     private String imgFilePath;
     
     public menuItem(){}
-    public menuItem(int itemId,int cost, String itemName,String imgFilePath){
+    public menuItem(int itemId,int cost, String itemName,String imgFilePath,int pointAmount){
         this.itemId = itemId;
         this.itemCost = cost;
         this.itemName = itemName;
         this.imgFilePath = imgFilePath;
+        this.pointAmount=pointAmount;
         myPicture= new ImageIcon(imgFilePath);
     }
     public int getItemId(){return itemId;}
     public int getItemCost(){return itemCost;}
+    public int getPointAmount(){return pointAmount;}
     public String getItemName(){return itemName;}
     public String getImgFilePath(){return imgFilePath;}
     public Icon getIcon(){return myPicture;}
@@ -37,7 +40,10 @@ public class menuItem  {
         int itemCost = 0;
         String imgFilePath = null;
         int itemId=0;
+        int pointAmount=0;
+        String type="";
         String searchIdString="";
+        boolean hasAlco=false;
         searchIdString = searchIdString+ searchId;
     
         try {
@@ -52,9 +58,11 @@ public class menuItem  {
                 itemCost = Integer.parseInt(resultSet.getString("itemCost"));
                 String relativePath = resultSet.getString("imgFilePath");
                 itemId = resultSet.getInt("itemId");
+                type = resultSet.getString("type");
+                hasAlco=resultSet.getBoolean("hasAlco");
                 String basePath = System.getProperty("user.dir"); 
                 imgFilePath = basePath + File.separator + relativePath;
-    
+                pointAmount=resultSet.getInt("pointsAmount");
             } 
             else {
                 JOptionPane.showMessageDialog(null, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -68,7 +76,13 @@ public class menuItem  {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        menuItem ren = new menuItem(itemId, itemCost, itemName, imgFilePath);
-        return ren;
+        if(type.equals("drink")){
+            drinkItem ren = new drinkItem(itemId, itemCost, itemName, imgFilePath,hasAlco,pointAmount);
+            return ren;
+        }
+        else{
+            foodItem ren = new foodItem(itemId, itemCost, itemName, imgFilePath,pointAmount);
+            return ren;
+        }
     }    
 }

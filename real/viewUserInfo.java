@@ -14,13 +14,13 @@ public class viewUserInfo {
     private static JPanel optionsPanel = new JPanel();
     private static Boolean del=false;
     private static User user2;
-
+     
 
     public static void show(User user){
+        JFrame frame = new JFrame("View User info");
         user2=user;
         optionsPanel = new JPanel();
         controlsPanel = new JPanel();
-        JFrame frame = new JFrame("View User info");
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,11 +52,9 @@ public class viewUserInfo {
                 if(del==false){
                     del=true;
                     enableDelete.setText("Disable Delete");
-                    System.out.println("IF WORKER");
 
                 }
                 else{
-                    System.out.println("ELSE WORKER");
                     del=false;
                     enableDelete.setText("Enable Delete");
 
@@ -97,6 +95,7 @@ public class viewUserInfo {
                 while(res.next()){
                     name = res.getString(2);
                     String name2 = res.getString(2);
+                    int id = res.getInt(1   );
                     String out="UserId: "+res.getInt(1) + " \nName: "+res.getString(2) + " \nDOB: "+res.getString(3) + " \nAddress: "+res.getString(4) + " \nGender: "+res.getString(5) + " \nPoints: "+res.getInt(6)+" ";
                     JButton personButton = new JButton(name);
                     personButton.addActionListener(new ActionListener() {
@@ -104,7 +103,10 @@ public class viewUserInfo {
                             if(del){
                                     int choice =JOptionPane.showConfirmDialog(null, "Are you sure you would like to delete" + name2+"?");
                                     if(choice==0){
-                                        deleteUser(name2,user2);
+                                        deleteUser(name2,user2,id);
+                                        optionsPanel.remove(personButton);
+                                        optionsPanel.revalidate();
+                                        optionsPanel.repaint();
                                     }
                                     else{
                                         JOptionPane.showMessageDialog(null, "Succesfully Aborted");
@@ -129,16 +131,16 @@ public class viewUserInfo {
             }
     
         }
-        public static void deleteUser(String name,User user){
-            if(name.equals(user.getName())){
+        public static void deleteUser(String name,User user,int id){
+            if(id==user.getId()){
                 JOptionPane.showMessageDialog(null, "Cant delete Self", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             else{
             try {
                 Connection con = DBHelper.getConnection();
-                String query = "DELETE FROM users WHERE name = ?";
+                String query = "DELETE FROM users WHERE userId = ?";
                 PreparedStatement pstmt = con.prepareStatement(query);
-                pstmt.setString(1, name);  
+                pstmt.setInt(1, id);  
                 pstmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, name+" has been erradicated");
         
@@ -146,6 +148,7 @@ public class viewUserInfo {
                 // Close resources
                 pstmt.close();
                 con.close();
+
             } catch (Exception excep) {
                 excep.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);

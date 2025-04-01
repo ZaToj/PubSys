@@ -40,8 +40,10 @@ public class User {
     public String getGender(){return gender;} 
     public int getPointAmount(){return pointAmount;} 
     public boolean isAdmin(){return isAdmin;} 
+    public String getPass(){return password;} 
     
     public void setPass(String password){password=this.password;} 
+    public void setPointsAmount(int pointAmount){pointAmount=this.pointAmount;} 
 
 
 

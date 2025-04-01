@@ -20,7 +20,7 @@ public class ViewProfile {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create the details panel with GridLayout
-        JPanel detailsPanel = new JPanel(new GridLayout(6, 2, 10, 10)); // 6 rows, 2 columns
+        JPanel detailsPanel = new JPanel(new GridLayout(7, 2, 10, 10)); // 6 rows, 2 columns
 
         // Labels (non-editable text)
         JLabel idLabel = new JLabel("User ID:");
@@ -32,6 +32,10 @@ public class ViewProfile {
         JLabel nameLabel = new JLabel("Name:");
         JTextField nameField = new JTextField(user.getName());
         nameField.setEnabled(false);
+
+        JLabel passwordLabel = new JLabel("Password:");
+        JTextField passwordField = new JTextField(user.getPass());
+        passwordField.setEnabled(false);
 
         JLabel ageLabel = new JLabel("Age:");
         JTextField ageField = new JTextField(String.valueOf(user.getAge()));
@@ -51,6 +55,9 @@ public class ViewProfile {
 
         detailsPanel.add(nameLabel);
         detailsPanel.add(nameField);
+
+        detailsPanel.add(passwordLabel);
+        detailsPanel.add(passwordField);
 
         detailsPanel.add(ageLabel);
         detailsPanel.add(ageField);
@@ -88,6 +95,7 @@ public class ViewProfile {
                 boolean editable = enableEdit.isSelected();
                 enableEdit.setText(editable ? "Disable Edit" : "Enable Edit");
                 nameField.setEnabled(editable);
+                passwordField.setEnabled(editable);
                 ageField.setEnabled(editable);
                 addressField.setEnabled(editable);
                 genderField.setEnabled(editable);

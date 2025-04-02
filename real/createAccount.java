@@ -10,22 +10,25 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ResourceBundle;
 
 public class createAccount {
 
     private static JTextField name, dob, address,password,conPassword;
     private static JRadioButton male, female, tojian;
-    private static JButton submit;
+    private static JButton submit,returnButton;
+    private static ResourceBundle messages = LanguageManager.getInstance().getMessages();
+    private static JFrame frame = new JFrame();
 
         public static void show(){
-        JFrame frame = new JFrame("New User");
+        frame = new JFrame("New User");
         JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel passPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel conPassPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel dobPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton returnButton = new JButton("Return");
+        returnButton = new JButton("Return");
         frame.setSize(400,300);
         frame.setLayout(new GridLayout(8,2,10,10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,52 +36,53 @@ public class createAccount {
         frame.setVisible(true);
         
         //names
-        namePanel.add(new JLabel("Name: "));
+        namePanel.add(new JLabel(messages.getString("createaccount.name")));
         name= new JTextField(10);
         namePanel.add(name);
         frame.add(namePanel);
         
         //Password
-        passPanel.add(new JLabel("Password: "));
+        passPanel.add(new JLabel(messages.getString("createaccount.password")));
         password= new JPasswordField(10);
         passPanel.add(password);
         frame.add(passPanel);
+
         //ConPassword
-        conPassPanel.add(new JLabel("Confirm Password: "));
+        conPassPanel.add(new JLabel(messages.getString("createaccount.confirmPassword")));
         conPassword= new JPasswordField(10);
         conPassPanel.add(conPassword);
         frame.add(conPassPanel);
 
         
         //birth
-        dobPanel.add(new JLabel("Date of birth: (YYYY-MM-DD)"));
+        dobPanel.add(new JLabel(messages.getString("createaccount.dob")));
         dob= new JTextField(10);
         dobPanel.add(dob);
         frame.add(dobPanel);        
         
         //address
-        addressPanel.add(new JLabel("Address: "));
+        addressPanel.add(new JLabel(messages.getString("createaccount.address")));
         address= new JTextField(10);
         addressPanel.add(address);
         frame.add(addressPanel);  
 
         //gender
 
-        male = new JRadioButton("Male");
-        female = new JRadioButton("female");
-        tojian = new JRadioButton("tojian");
+        male = new JRadioButton(messages.getString("createaccount.male"));
+        female = new JRadioButton(messages.getString("createaccount.female"));
+        tojian = new JRadioButton(messages.getString("createaccount.tojian"));
         ButtonGroup genders= new ButtonGroup();
         genders.add(male);
         genders.add(female);
         genders.add(tojian);
-        genderPanel.add(new JLabel("Gender: "));
+        genderPanel.add(new JLabel(messages.getString("createaccount.gender")));
         genderPanel.add(male);
         genderPanel.add(female);
         genderPanel.add(tojian);
         frame.add(genderPanel);
 
         //submit
-        submit = new JButton("Submit");
+        submit = new JButton(messages.getString("createaccount.submit"));
         frame.add(submit);
         submit.addActionListener(new ActionListener() {
             @Override
@@ -121,7 +125,13 @@ public class createAccount {
             }
           
         });
-        
+        updateLanguage();
+    }
+    private static void updateLanguage() {
+        ResourceBundle messages = LanguageManager.getInstance().getMessages();
+        frame.setTitle(messages.getString("createaccount.title"));
+        submit.setText(messages.getString("createaccount.submit"));
+        returnButton.setText(messages.getString("createaccount.return"));
     }
     public static void validateDate(String date) throws InvalidDateFormatException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -129,7 +139,7 @@ public class createAccount {
         try {
             dateFormat.parse(date);
         } catch (ParseException e) {
-            throw new InvalidDateFormatException("Please enter the date in YYYY-MM-DD format.");
+            throw new InvalidDateFormatException(messages.getString("createaccount.InvalidDateFormatException"));
         }
     }    
     public static void validatePass(String pass) throws Exception {

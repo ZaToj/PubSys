@@ -16,33 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `menuitemtranslations`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `menuitemtranslations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `userId` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `dob` datetime DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `gender` varchar(45) DEFAULT NULL,
-  `pointsAmount` int DEFAULT NULL,
-  `isAdmin` int DEFAULT NULL,
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `menuitemtranslations` (
+  `itemId` int NOT NULL,
+  `locale` varchar(10) NOT NULL,
+  `itemName` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`itemId`,`locale`),
+  CONSTRAINT `menuitemtranslations_ibfk_1` FOREIGN KEY (`itemId`) REFERENCES `menuitems` (`itemId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `menuitemtranslations`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'toj','11010100111111011','2003-11-01 00:00:00','Swag City','Tojian',63,1),(2,'michael','','2004-09-13 00:00:00','brownsville','Male',0,0),(3,'keelie','11100000110100110','2005-06-09 00:00:00','14yurman','Female',0,1),(4,'darian byrne','','2004-12-01 00:00:00','Carlow','Tojian',0,0),(5,'Brigid','','1979-01-05 00:00:00','ballycoolan','Tojian',0,0),(13,'Sab','','2003-07-13 00:00:00','Denmark?','Female',0,0),(14,'Jose','11011011110100111','2003-06-23 00:00:00','denmark','Female',0,0),(15,'cian','11001101010010110','2005-02-15 00:00:00','newbridge','Male',0,0),(16,'diddy','11101111101110111101','1939-06-11 00:00:00','twin towers','Tojian',0,0);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `menuitemtranslations` WRITE;
+/*!40000 ALTER TABLE `menuitemtranslations` DISABLE KEYS */;
+INSERT INTO `menuitemtranslations` VALUES (1,'en','Hamburger'),(1,'ja','ハンバーガー'),(2,'en','Soda'),(2,'ja','ソーダ');
+/*!40000 ALTER TABLE `menuitemtranslations` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -2,76 +2,85 @@ package real;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ResourceBundle;
 
 public class OrderMenu {
     private static menuItem order[] = new menuItem[25];
     private static int i = 0;
     private static int oc = 0;
-    private static int subTotal = 0;    
-    private static JLabel subTotalLabel = new JLabel("Subtotal: $0");
-    private static JPanel controlsPanel = new JPanel();
-    private static DefaultListModel<String> model = new DefaultListModel<>();
-    private static JList<String> list = new JList<String>(model);
+    private static int subTotal = 0;
+    private static JLabel subTotalLabel;
+    private static JPanel controlsPanel;
+    private static DefaultListModel<String> model;
+    private static JList<String> list;
+    private static JFrame frame;
+    private static JButton returnButton, orderButton;
+    private static ResourceBundle messages = LanguageManager.getInstance().getMessages();
 
 
     public static void show(User user) {
-        JFrame frame = new JFrame("Order Menu");
+        frame = new JFrame();
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(150, 150);
 
+        /*  Language selector
+        JComboBox<String> languageSelector = new JComboBox<>(new String[]{"English", "日本語"});
+        languageSelector.addActionListener(e -> {
+            Locale selectedLocale = languageSelector.getSelectedIndex() == 0 ? Locale.ENGLISH : Locale.JAPANESE;
+            LanguageManager.getInstance().setLocale(selectedLocale);
+            updateLanguage();
+        });
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        topPanel.add(languageSelector);
+        frame.add(topPanel, BorderLayout.NORTH);
+        */
 
         // Sidebar (Control Panel)
+        controlsPanel = new JPanel();
         controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
         controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
         controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-        JButton returnButton = new JButton("Return");
+        returnButton = new JButton();
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        returnButton.setSize(4000,40000);
-        returnButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                clear(user);
-                frame.dispose();
-        }
+        returnButton.addActionListener(e -> {
+            clear(user);
+            frame.dispose();
         });
 
-        JButton orderButton = new JButton("Order");
+        orderButton = new JButton();
         orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        orderButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int pointsGained=0;
-                boolean worked=false;
-                worked=processsOrder(user);
-                if(worked){
-                    for(int i=0;i<oc;i++){
-                        pointsGained+=order[i].getPointAmount();
-                    }
-                    givePoints(user,pointsGained);
-                    JOptionPane.showMessageDialog(null, "IT WORKED ORDER PLACED");
-                    clear(user);
-                    frame.dispose();
+        orderButton.addActionListener(e -> {
+            int pointsGained = 0;
+            boolean worked = processsOrder(user);
+            if (worked) {
+                for (int j = 0; j < oc; j++) {
+                    pointsGained += order[j].getPointAmount();
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "IT NOT WORKED ORDER NOT PLACED");
-                }
-                
+                givePoints(user, pointsGained);
+                JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.orderSuccess"));
+                clear(user);
+                frame.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.orderFail"));
             }
         });
 
-        controlsPanel.add(Box.createVerticalStrut(20)); // Spacing
+        model = new DefaultListModel<>();
+        list = new JList<>(model);
+        subTotalLabel = new JLabel();
+
+        controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(orderButton);
-        controlsPanel.add(Box.createVerticalGlue()); // Push everything to the top
+        controlsPanel.add(Box.createVerticalGlue());
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(list);
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(subTotalLabel);
         controlsPanel.add(returnButton);
-        // controlsPanel.add(Box.createGlue()); // Push everything to the top
 
         // Main Options Panel
         JPanel optionsPanel = new JPanel();
@@ -79,68 +88,67 @@ public class OrderMenu {
         optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Load menu items
-        for (int i = 1; i < 10; i++) {
-            menuItem item = menuItem.getMenuItem(i);
+        for (int j = 1; j < 10; j++) {
+            menuItem item = menuItem.getMenuItem(j);
             if (item != null) {
-                JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(), item.getImgFilePath(), item.getItemId(),item.getPointAmount());
+                JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(), item.getImgFilePath(), item.getItemId(), item.getPointAmount());
                 optionsPanel.add(itemPanel);
             }
         }
 
         // Add panels to frame
-        frame.add(controlsPanel, BorderLayout.WEST); // Sidebar
-        frame.add(optionsPanel, BorderLayout.CENTER); // Main menu items
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        frame.add(controlsPanel, BorderLayout.WEST);
+        frame.add(optionsPanel, BorderLayout.CENTER);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-
+        updateLanguage(); // Set initial text
         frame.setVisible(true);
     }
 
-    private static void givePoints(User user, int in){
-        int points=user.getPointAmount()+in;
+    private static void updateLanguage() {
+        ResourceBundle messages = LanguageManager.getInstance().getMessages();
+        frame.setTitle(messages.getString("ordermenu.title"));
+        returnButton.setText(messages.getString("ordermenu.return"));
+        orderButton.setText(messages.getString("ordermenu.order"));
+        subTotalLabel.setText(messages.getString("ordermenu.subtotal").replace("${0}", String.valueOf(subTotal)));
+    }
+
+    private static void givePoints(User user, int in) {
+        int points = user.getPointAmount() + in;
         user.setPointsAmount(points);
         try {
-
             Connection con = DBHelper.getConnection();
             String sql = "UPDATE users SET pointsAmount = ? WHERE userId = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
-
             pstmt.setInt(1, points);
             pstmt.setInt(2, user.getId());
             pstmt.executeUpdate();
-
-
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error in the adding points!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.pointsError"), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
-    
-    private static void clear(User user){
 
-        oc=0;
-        i=0;
-        subTotal=0;
-        subTotalLabel = new JLabel("Subtotal: $0");
+    private static void clear(User user) {
+        oc = 0;
+        i = 0;
+        subTotal = 0;
+        subTotalLabel = new JLabel();
         controlsPanel = new JPanel();
         model = new DefaultListModel<>();
         list = new JList<>(model);
         mainMenu.show(user);
-        
     }
 
-    private static JPanel createMenuItem(String name, int price, String imagePath, int itemId,int pointAmount) {
+    private static JPanel createMenuItem(String name, int price, String imagePath, int itemId, int pointAmount) {
         JPanel panel = new JPanel();
-        menuItem tempItem = new menuItem(itemId, price, name, imagePath,pointAmount);
+        menuItem tempItem = new menuItem(itemId, price, name, imagePath, pointAmount);
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(150, 150));
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        
 
         String priceText = "$" + price;
 
-        // Load image
         ImageIcon icon = new ImageIcon(imagePath);
         Image img = icon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(img));
@@ -148,31 +156,24 @@ public class OrderMenu {
         JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
         JLabel priceLabel = new JLabel(priceText, SwingConstants.CENTER);
 
-        JButton button = new JButton("Select");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (i < order.length) {
-                    order[i] = tempItem;
-                    model.addElement(order[i].getItemName());
-                    subTotal=subTotal+order[i].getItemCost();
-                    subTotalLabel.setText("SubTotal: $"+(subTotal));
-                    i++;
-                    oc++;
-                    
-                    //JOptionPane.showMessageDialog(null, "You selected: " + name);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Order limit reached!");
-                }
+        JButton button = new JButton(LanguageManager.getInstance().getMessages().getString("ordermenu.select"));
+        button.addActionListener(e -> {
+            if (i < order.length) {
+                order[i] = tempItem;
+                model.addElement(order[i].getItemName());
+                subTotal += order[i].getItemCost();
+                subTotalLabel.setText(LanguageManager.getInstance().getMessages().getString("ordermenu.subtotal").replace("${0}", String.valueOf(subTotal)));
+                i++;
+                oc++;
+            } else {
+                JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.orderLimit"));
             }
         });
 
-        // Panel for text
         JPanel textPanel = new JPanel(new GridLayout(2, 1));
         textPanel.add(nameLabel);
         textPanel.add(priceLabel);
 
-        // Add components
         panel.add(imageLabel, BorderLayout.CENTER);
         panel.add(textPanel, BorderLayout.SOUTH);
         panel.add(button, BorderLayout.NORTH);
@@ -181,72 +182,68 @@ public class OrderMenu {
     }
 
     public static boolean processsOrder(User user) {
-    if (oc == 0) {
-        JOptionPane.showMessageDialog(null, "No items in the order!");
-        return false;
-    } 
-
-    Connection con = null;
-    PreparedStatement orderStmt = null;
-    PreparedStatement itemStmt = null;
-    ResultSet rs = null;
-    boolean success = false;
-    int orderId = -1;
-    int pointValue=0;
-
-    try {
-        con = DBHelper.getConnection();
-        con.setAutoCommit(false);  
-
-        String orderQuery = "INSERT INTO orders (userid, totalcost) VALUES (?, ?)";
-        orderStmt = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
-        orderStmt.setInt(1, user.getId());
-        orderStmt.setDouble(2, subTotal);
-        orderStmt.executeUpdate();
-
-        rs = orderStmt.getGeneratedKeys();
-        if (rs.next()) {
-            orderId = rs.getInt(1);
-        } else {
-            throw new SQLException("Failed to retrieve order ID.");
+        if (oc == 0) {
+            JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.noItems"));
+            return false;
         }
 
-        
-        String itemQuery = "INSERT INTO orderitems (orderid, itemid, quantity) VALUES (?, ?, ?)";
-        itemStmt = con.prepareStatement(itemQuery);
-        
-        for (int i = 0; i < oc; i++) {
-            itemStmt.setInt(1, orderId);
-            itemStmt.setInt(2, order[i].getItemId());
-            itemStmt.setInt(3, 1); // Assuming quantity is always 1 for now
-            itemStmt.addBatch();  // Add to batch
-        }
+        Connection con = null;
+        PreparedStatement orderStmt = null;
+        PreparedStatement itemStmt = null;
+        ResultSet rs = null;
+        boolean success = false;
+        int orderId = -1;
 
-        itemStmt.executeBatch();  
-        con.commit();  
-        success = true;
+        try {
+            con = DBHelper.getConnection();
+            con.setAutoCommit(false);
 
-        JOptionPane.showMessageDialog(null, "Order placed successfully!");
-    } catch (SQLException e) {
-        if (con != null) {
+            String orderQuery = "INSERT INTO orders (userid, totalcost) VALUES (?, ?)";
+            orderStmt = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
+            orderStmt.setInt(1, user.getId());
+            orderStmt.setDouble(2, subTotal);
+            orderStmt.executeUpdate();
+
+            rs = orderStmt.getGeneratedKeys();
+            if (rs.next()) {
+                orderId = rs.getInt(1);
+            } else {
+                throw new SQLException("Failed to retrieve order ID.");
+            }
+
+            String itemQuery = "INSERT INTO orderitems (orderid, itemid, quantity) VALUES (?, ?, ?)";
+            itemStmt = con.prepareStatement(itemQuery);
+
+            for (int j = 0; j < oc; j++) {
+                itemStmt.setInt(1, orderId);
+                itemStmt.setInt(2, order[j].getItemId());
+                itemStmt.setInt(3, 1);
+                itemStmt.addBatch();
+            }
+
+            itemStmt.executeBatch();
+            con.commit();
+            success = true;
+        } catch (SQLException e) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+            JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.orderFail"));
+            e.printStackTrace();
+        } finally {
             try {
-                con.rollback();  // Rollback transaction on error
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
+                if (rs != null) rs.close();
+                if (orderStmt != null) orderStmt.close();
+                if (itemStmt != null) itemStmt.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
-        JOptionPane.showMessageDialog(null, "Error placing order.");
-        e.printStackTrace();
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (orderStmt != null) orderStmt.close();
-            if (itemStmt != null) itemStmt.close();
-            if (con != null) con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return success;
     }
-    return success;
-}   
 }

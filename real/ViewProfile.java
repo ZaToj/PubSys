@@ -23,29 +23,29 @@ public class ViewProfile {
         JPanel detailsPanel = new JPanel(new GridLayout(7, 2, 10, 10)); // 6 rows, 2 columns
 
         // Labels (non-editable text)
-        JLabel idLabel = new JLabel("User ID:");
+        JLabel idLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.userId"));
         JLabel idValueLabel = new JLabel(""+user.getId());
 
-        JLabel pointsLabel = new JLabel("Points:");
+        JLabel pointsLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.points"));
         JLabel pointsValueLabel = new JLabel(String.valueOf(user.getPointAmount()));
 
-        JLabel nameLabel = new JLabel("Name:");
+        JLabel nameLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.name"));
         JTextField nameField = new JTextField(user.getName());
         nameField.setEnabled(false);
 
-        JLabel passwordLabel = new JLabel("Password:");
+        JLabel passwordLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.password"));
         JTextField passwordField = new JTextField(user.getPass());
         passwordField.setEnabled(false);
 
-        JLabel ageLabel = new JLabel("Age:");
+        JLabel ageLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.age"));
         JTextField ageField = new JTextField(String.valueOf(user.getAge()));
         ageField.setEnabled(false);
 
-        JLabel addressLabel = new JLabel("Address:");
+        JLabel addressLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.address"));
         JTextField addressField = new JTextField(user.getAddress());
         addressField.setEnabled(false);
 
-        JLabel genderLabel = new JLabel("Gender:");
+        JLabel genderLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.gender"));
         JTextField genderField = new JTextField(user.getGender());
         genderField.setEnabled(false);
 
@@ -76,7 +76,7 @@ public class ViewProfile {
         sidebarPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
         sidebarPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-        JButton returnButton = new JButton("Return");
+        JButton returnButton = new JButton(LanguageManager.getInstance().getMessages().getString("viewProfile.return"));
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -88,12 +88,12 @@ public class ViewProfile {
         });
 
         // Toggle Edit Button
-        JToggleButton enableEdit = new JToggleButton("Enable Edit");
+        JToggleButton enableEdit = new JToggleButton(LanguageManager.getInstance().getMessages().getString("viewProfile.enableEdit"));
         enableEdit.setAlignmentX(Component.CENTER_ALIGNMENT);
         enableEdit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean editable = enableEdit.isSelected();
-                enableEdit.setText(editable ? "Disable Edit" : "Enable Edit");
+                enableEdit.setText(editable ? LanguageManager.getInstance().getMessages().getString("viewProfile.disableEdit") : LanguageManager.getInstance().getMessages().getString("viewProfile.enableEdit"));
                 nameField.setEnabled(editable);
                 passwordField.setEnabled(editable);
                 ageField.setEnabled(editable);

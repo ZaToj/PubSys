@@ -129,9 +129,9 @@ public class User {
                 pointAmount = resultSet.getInt("pointsAmount");
                 id = resultSet.getInt("userId");
                 isAdmin = resultSet.getBoolean("isAdmin");
-                
+                LanguageManager.getInstance().getMessages().getString("welcome.message").replace("${0}", user.getName());
 
-                JOptionPane.showMessageDialog(null, "Welcome back, " + user.getName() + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,LanguageManager.getInstance().getMessages().getString("welcome.message").replace("${0}", user.getName()), "Login Successful", JOptionPane.INFORMATION_MESSAGE);
                 return user;
             } 
             else {

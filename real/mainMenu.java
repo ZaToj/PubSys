@@ -8,11 +8,11 @@ public class mainMenu {
 
         //add in user update for everytime they come back here
         JFrame frame = new JFrame("Main Menu");
-        JButton button = new JButton("Order");
-        JButton button2 = new JButton("View Profile");
-        JButton button3 = new JButton("View order History");
-        JButton button4 = new JButton("Book a Table");
-        JButton adminMenuButton = new JButton("Admin");
+        JButton button = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.order"));
+        JButton button2 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.viewProfile"));
+        JButton button3 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.orderHistory"));
+        JButton button4 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.bookTable"));
+        JButton adminMenuButton = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.admin"));
         //Label button1Label = new Label("Order");
         
         frame.setLayout( new GridLayout(0,1) ); // set frame layout

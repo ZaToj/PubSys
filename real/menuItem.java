@@ -39,50 +39,69 @@ public class menuItem  {
         String itemName = null;
         int itemCost = 0;
         String imgFilePath = null;
-        int itemId=0;
-        int pointAmount=0;
-        String type="";
-        String searchIdString="";
-        boolean hasAlco=false;
-        searchIdString = searchIdString+ searchId;
-    
+        int itemId = 0;
+        int pointAmount = 0;
+        String type = "";
+        boolean hasAlco = false;
+
         try {
             Connection con = DBHelper.getConnection();
-            String query = "SELECT * FROM menuItems WHERE itemId = ?";
-            PreparedStatement pstmt = con.prepareStatement(query);
-            pstmt.setString(1, searchIdString);  
-            ResultSet resultSet = pstmt.executeQuery();
-    
-            if (resultSet.next()) { 
-                itemName = resultSet.getString("itemName");
-                itemCost = Integer.parseInt(resultSet.getString("itemCost"));
-                String relativePath = resultSet.getString("imgFilePath");
-                itemId = resultSet.getInt("itemId");
-                type = resultSet.getString("type");
-                hasAlco=resultSet.getBoolean("hasAlco");
-                String basePath = System.getProperty("user.dir"); 
+
+            // Query the base menu item details
+            String baseQuery = "SELECT itemId, itemCost, imgFilePath, type, hasAlco, pointsAmount FROM menuItems WHERE itemId = ?";
+            PreparedStatement baseStmt = con.prepareStatement(baseQuery);
+            baseStmt.setInt(1, searchId);
+            ResultSet baseResult = baseStmt.executeQuery();
+
+            if (baseResult.next()) {
+                itemId = baseResult.getInt("itemId");
+                itemCost = baseResult.getInt("itemCost");
+                String relativePath = baseResult.getString("imgFilePath");
+                type = baseResult.getString("type");
+                hasAlco = baseResult.getBoolean("hasAlco");
+                pointAmount = baseResult.getInt("pointsAmount");
+                String basePath = System.getProperty("user.dir");
                 imgFilePath = basePath + File.separator + relativePath;
-                pointAmount=resultSet.getInt("pointsAmount");
-            } 
-            else {
+
+                // Query the translated name
+                String locale = LanguageManager.getInstance().getLocale().getLanguage(); // 'en' or 'ja'
+                String transQuery = "SELECT itemName FROM menuItemTranslations WHERE itemId = ? AND locale = ?";
+                PreparedStatement transStmt = con.prepareStatement(transQuery);
+                transStmt.setInt(1, searchId);
+                transStmt.setString(2, locale);
+                ResultSet transResult = transStmt.executeQuery();
+
+                if (transResult.next()) {
+                    itemName = transResult.getString("itemName");
+                } else {
+                    // Fallback: use English if translation not found
+                    transStmt.setString(2, "en");
+                    transResult = transStmt.executeQuery();
+                    if (transResult.next()) {
+                        itemName = transResult.getString("itemName");
+                    } else {
+                        itemName = "Unknown Item";
+                    }
+                }
+
+                transResult.close();
+                transStmt.close();
+            } else {
                 JOptionPane.showMessageDialog(null, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-    
-            // Close resources
-            resultSet.close();
-            pstmt.close();
+
+            baseResult.close();
+            baseStmt.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        if(type.equals("drink")){
-            drinkItem ren = new drinkItem(itemId, itemCost, itemName, imgFilePath,hasAlco,pointAmount);
-            return ren;
+
+        if (type.equals("drink")) {
+            return new drinkItem(itemId, itemCost, itemName, imgFilePath, hasAlco, pointAmount);
+        } else {
+            return new foodItem(itemId, itemCost, itemName, imgFilePath, pointAmount);
         }
-        else{
-            foodItem ren = new foodItem(itemId, itemCost, itemName, imgFilePath,pointAmount);
-            return ren;
-        }
-    }    
+    }
 }

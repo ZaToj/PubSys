@@ -10,10 +10,10 @@ public class signIn {
     public static void show(){
         User user = new User();
         JTextField name,passwordText;
-        JFrame frame = new JFrame("Sign in");
+        JFrame frame = new JFrame(LanguageManager.getInstance().getMessages().getString("signin.title"));
         JPanel username = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel password = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton loginButton = new JButton("LOG IN MAN PLEASEEEEEEEE");
+        JButton loginButton = new JButton(LanguageManager.getInstance().getMessages().getString("signin.loginButton"));
 
         frame.setSize(400,300);
         frame.setLayout(new GridLayout(6,2,10,10));
@@ -21,12 +21,12 @@ public class signIn {
         frame.setLocation ( 150, 150 );
 
 
-        username.add(new JLabel("Name: "));
+        username.add(new JLabel(LanguageManager.getInstance().getMessages().getString("signin.name")));
         name= new JTextField(10);
         username.add(name);
         frame.add(username);
 
-        password.add(new JLabel("Password: "));
+        password.add(new JLabel(LanguageManager.getInstance().getMessages().getString("signin.password")));
         passwordText= new JPasswordField(10);
         password.add(passwordText);
         frame.add(password);
@@ -51,7 +51,7 @@ public class signIn {
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Please fill in all data", "", 0);
+                    JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("signin.dataError"), "", 0);
                 }
                 
             }

@@ -34,7 +34,7 @@ public class ViewOrderHistory {
         JScrollPane itemScrollPane = new JScrollPane(itemTable);
         detailsPanel.add(itemScrollPane, BorderLayout.CENTER);
         
-        JButton returnButton = new JButton("Return to Main Menu");
+        JButton returnButton = new JButton(LanguageManager.getInstance().getMessages().getString("orderHistory.return"));
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

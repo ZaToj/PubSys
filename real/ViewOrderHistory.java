@@ -21,13 +21,13 @@ public class ViewOrderHistory {
 
 
         Object[][] orderData = fetchUserOrders(user.getId());
-        String[] orderColumnNames = {"Order ID", "Total Cost", "Order Date"};
+        String[] orderColumnNames = {LanguageManager.getInstance().getMessages().getString("orderHistory.columnid"),LanguageManager.getInstance().getMessages().getString("orderHistory.columncost"), LanguageManager.getInstance().getMessages().getString("orderHistory.columndate")};
 
         JTable orderTable = new JTable(orderData, orderColumnNames);
         JScrollPane orderScrollPane = new JScrollPane(orderTable);
 
         JPanel detailsPanel = new JPanel(new BorderLayout());
-        JLabel detailsLabel = new JLabel("Select an order to view details", SwingConstants.CENTER);
+        JLabel detailsLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("orderHistory.selectOrder"), SwingConstants.CENTER);
         detailsPanel.add(detailsLabel, BorderLayout.NORTH);
 
         JTable itemTable = new JTable();

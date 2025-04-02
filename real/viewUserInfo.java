@@ -17,7 +17,7 @@ public class viewUserInfo {
      
 
     public static void show(User user){
-        JFrame frame = new JFrame("View User info");
+        JFrame frame = new JFrame(LanguageManager.getInstance().getMessages().getString("viewUserInfo.title"));
         user2=user;
         optionsPanel = new JPanel();
         controlsPanel = new JPanel();
@@ -33,7 +33,7 @@ public class viewUserInfo {
         controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
         controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-        JButton returnButton = new JButton("Return");
+        JButton returnButton = new JButton(LanguageManager.getInstance().getMessages().getString("viewUserInfo.return"));
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         returnButton.setSize(4000,40000);
         returnButton.addActionListener(new ActionListener() {
@@ -44,19 +44,19 @@ public class viewUserInfo {
                 AdminOptions.show(user);
             }
         });
-        JButton enableDelete = new JButton("Enable Delete");
+        JButton enableDelete = new JButton(LanguageManager.getInstance().getMessages().getString("viewUserInfo.enableDelete"));
         enableDelete.setAlignmentX(Component.CENTER_ALIGNMENT);
         enableDelete.setSize(4000,40000);
         enableDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(del==false){
                     del=true;
-                    enableDelete.setText("Disable Delete");
+                    enableDelete.setText(LanguageManager.getInstance().getMessages().getString("viewUserInfo.disableDelete"));
 
                 }
                 else{
                     del=false;
-                    enableDelete.setText("Enable Delete");
+                    enableDelete.setText(LanguageManager.getInstance().getMessages().getString("viewUserInfo.enableDelete"));
 
                 }
             }

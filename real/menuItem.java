@@ -64,7 +64,7 @@ public class menuItem  {
                 imgFilePath = basePath + File.separator + relativePath;
 
                 // Query the translated name
-                String locale = LanguageManager.getInstance().getLocale().getLanguage(); // 'en' or 'ja'
+                String locale = LanguageManager.getInstance().getLocale().getLanguage(); 
                 String transQuery = "SELECT itemName FROM menuItemTranslations WHERE itemId = ? AND locale = ?";
                 PreparedStatement transStmt = con.prepareStatement(transQuery);
                 transStmt.setInt(1, searchId);

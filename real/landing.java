@@ -1,8 +1,11 @@
 package real;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -15,11 +18,21 @@ public class landing {
         login = new JButton("Login");
         createAcc = new JButton("Create Account");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JComboBox<String> languageSelector = new JComboBox<>(new String[]{"English", "日本語"});
-        languageSelector.addActionListener(e -> {
-            Locale selectedLocale = languageSelector.getSelectedIndex() == 0 ? Locale.ENGLISH : Locale.JAPANESE;
+
+        Map<String, Locale> languageMap = new LinkedHashMap<>();
+        languageMap.put("English", Locale.ENGLISH);
+        languageMap.put("日本語", Locale.JAPANESE);
+        languageMap.put("Deutsch", Locale.GERMAN);
+        languageMap.put("Polski", Locale.FRENCH);
+        languageMap.put("Русский", Locale.ITALIAN);
+        //languageMap.put("Français", Locale.FRENCH);  // Example: Add more languages here
+
+        JComboBox<String> languageSelector = new JComboBox<>(languageMap.keySet().toArray(new String[0]));
+        languageSelector.addActionListener((ActionEvent e) -> {
+            String selectedLanguage = (String) languageSelector.getSelectedItem();
+            Locale selectedLocale = languageMap.getOrDefault(selectedLanguage, Locale.ENGLISH);
             LanguageManager.getInstance().setLocale(selectedLocale);
-            updateLanguage(); // Update all text
+            updateLanguage(); // Refresh UI text
         });
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

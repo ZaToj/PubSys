@@ -16,8 +16,6 @@ public class OrderMenu {
     private static JList<String> list;
     private static JFrame frame;
     private static JButton returnButton, orderButton;
-    private static ResourceBundle messages = LanguageManager.getInstance().getMessages();
-
 
     public static void show(User user) {
         frame = new JFrame();
@@ -25,18 +23,6 @@ public class OrderMenu {
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(150, 150);
-
-        /*  Language selector
-        JComboBox<String> languageSelector = new JComboBox<>(new String[]{"English", "日本語"});
-        languageSelector.addActionListener(e -> {
-            Locale selectedLocale = languageSelector.getSelectedIndex() == 0 ? Locale.ENGLISH : Locale.JAPANESE;
-            LanguageManager.getInstance().setLocale(selectedLocale);
-            updateLanguage();
-        });
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        topPanel.add(languageSelector);
-        frame.add(topPanel, BorderLayout.NORTH);
-        */
 
         // Sidebar (Control Panel)
         controlsPanel = new JPanel();

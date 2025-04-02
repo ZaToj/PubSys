@@ -6,14 +6,14 @@ import java.sql.*;
 
 public class AdminOptions {
     public static void show(User user){
-        JFrame frame = new JFrame("Admin");
+        JFrame frame = new JFrame(LanguageManager.getInstance().getMessages().getString("admin.title"));
         frame.setSize(400,300);
         frame.setLayout(new GridLayout(0,2,40,40));
-        JButton returnButton = new JButton("Return");
+        JButton returnButton = new JButton(LanguageManager.getInstance().getMessages().getString("admin.return"));
         returnButton.setSize(10,10);
         frame.add(returnButton);
-        JButton deleteUser = new JButton("Make User Admin");
-        JButton viewButton = new JButton("View/Delete users");
+        JButton deleteUser = new JButton(LanguageManager.getInstance().getMessages().getString("admin.makeAdmin"));
+        JButton viewButton = new JButton(LanguageManager.getInstance().getMessages().getString("admin.updateUsers"));
         deleteUser.setSize(10,10);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 

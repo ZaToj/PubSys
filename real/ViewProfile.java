@@ -12,7 +12,7 @@ public class ViewProfile {
     public static void show(User user) {
         contentPanel = new JPanel();
         sidebarPanel = new JPanel();
-        JFrame frame = new JFrame("View User Info");
+        JFrame frame = new JFrame(LanguageManager.getInstance().getMessages().getString("viewProfile.title"));
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,11 +101,23 @@ public class ViewProfile {
                 genderField.setEnabled(editable);
             }
         });
+        //save chnages
+        JButton saveButton = new JButton(LanguageManager.getInstance().getMessages().getString("viewProfile.saveChanges"));
+        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+
+            }
+        });
+        
+
 
         // Add buttons to sidebar
         //sidebarPanel.add(new );
         sidebarPanel.add(Box.createVerticalStrut(20)); // Spacing
         sidebarPanel.add(enableEdit);
+        sidebarPanel.add(Box.createVerticalStrut(20)); // Spacing
+        sidebarPanel.add(saveButton);
         sidebarPanel.add(Box.createVerticalGlue()); // Push everything up
         sidebarPanel.add(Box.createVerticalStrut(20));
         sidebarPanel.add(returnButton);

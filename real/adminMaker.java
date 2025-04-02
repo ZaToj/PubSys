@@ -19,7 +19,7 @@ public class adminMaker {
         user2 = user;
         optionsPanel = new JPanel();
         controlsPanel = new JPanel();
-        JFrame frame = new JFrame("View User Info");
+        JFrame frame = new JFrame(LanguageManager.getInstance().getMessages().getString("adminMaker.title"));
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +31,7 @@ public class adminMaker {
         controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
         controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-        JButton returnButton = new JButton("Return");
+        JButton returnButton = new JButton(LanguageManager.getInstance().getMessages().getString("adminMaker.return"));
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         returnButton.setSize(4000, 40000);
         returnButton.addActionListener(new ActionListener() {
@@ -85,7 +85,7 @@ public class adminMaker {
                                 deCrown(name, user2);
                                 adminStatus.put(name, false); // Update local admin status
                             } else {
-                                JOptionPane.showMessageDialog(null, "Successfully Aborted");
+                                JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("adminMaker.abortion"));
                             }
                         } else {
                             int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to make " + name + " an admin?");
@@ -93,7 +93,7 @@ public class adminMaker {
                                 crown(name, user2);
                                 adminStatus.put(name, true); // Update local admin status
                             } else {
-                                JOptionPane.showMessageDialog(null, "Successfully Aborted");
+                                JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("adminMaker.abortion"));
                             }
                         }
                     }
@@ -109,7 +109,7 @@ public class adminMaker {
 
     public static void crown(String name, User user) {
         if (name.equals(user.getName())) {
-            JOptionPane.showMessageDialog(null, "You are an Admin", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("adminMaker.alreadyAdmin"), "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
                 Connection con = DBHelper.getConnection();
@@ -120,7 +120,7 @@ public class adminMaker {
                 
                 adminStatus.put(name, true); // Update local admin status
 
-                JOptionPane.showMessageDialog(null, name + " is now an admin");
+                JOptionPane.showMessageDialog(null, name + LanguageManager.getInstance().getMessages().getString("adminMaker.madeAdmin"));
 
                 pstmt.close();
                 con.close();
@@ -144,7 +144,7 @@ public class adminMaker {
                 
                 adminStatus.put(name, false); // Update local admin status
 
-                JOptionPane.showMessageDialog(null, name + " is no longer an admin");
+                JOptionPane.showMessageDialog(null, name + LanguageManager.getInstance().getMessages().getString("adminMaker.unAdmin"));
 
                 pstmt.close();
                 con.close();

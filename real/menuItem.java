@@ -74,7 +74,7 @@ public class menuItem  {
                 if (transResult.next()) {
                     itemName = transResult.getString("itemName");
                 } else {
-                    // Fallback: use English if translation not found
+                    // Fallback to English if translation not found
                     transStmt.setString(2, "en");
                     transResult = transStmt.executeQuery();
                     if (transResult.next()) {

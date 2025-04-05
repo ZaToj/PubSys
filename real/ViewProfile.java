@@ -3,6 +3,10 @@ package real;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.foreign.AddressLayout;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 import javax.swing.*;
 
 public class ViewProfile {
@@ -20,7 +24,7 @@ public class ViewProfile {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create the details panel with GridLayout
-        JPanel detailsPanel = new JPanel(new GridLayout(7, 2, 10, 10)); // 6 rows, 2 columns
+        JPanel detailsPanel = new JPanel(new GridLayout(7, 2, 10, 10)); // 7 rows, 2 columns
 
         // Labels (non-editable text)
         JLabel idLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.userId"));
@@ -33,9 +37,6 @@ public class ViewProfile {
         JTextField nameField = new JTextField(user.getName());
         nameField.setEnabled(false);
 
-        JLabel passwordLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.password"));
-        JTextField passwordField = new JTextField(user.getPass());
-        passwordField.setEnabled(false);
 
         JLabel ageLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.age"));
         JTextField ageField = new JTextField(String.valueOf(user.getAge()));
@@ -55,9 +56,6 @@ public class ViewProfile {
 
         detailsPanel.add(nameLabel);
         detailsPanel.add(nameField);
-
-        detailsPanel.add(passwordLabel);
-        detailsPanel.add(passwordField);
 
         detailsPanel.add(ageLabel);
         detailsPanel.add(ageField);
@@ -95,7 +93,6 @@ public class ViewProfile {
                 boolean editable = enableEdit.isSelected();
                 enableEdit.setText(editable ? LanguageManager.getInstance().getMessages().getString("viewProfile.disableEdit") : LanguageManager.getInstance().getMessages().getString("viewProfile.enableEdit"));
                 nameField.setEnabled(editable);
-                passwordField.setEnabled(editable);
                 ageField.setEnabled(editable);
                 addressField.setEnabled(editable);
                 genderField.setEnabled(editable);
@@ -106,9 +103,35 @@ public class ViewProfile {
         saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+                if(genderField.getText().equalsIgnoreCase("male")||genderField.getText().equalsIgnoreCase("female")){
 
+                
+                    if(JOptionPane.showConfirmDialog(null, LanguageManager.getInstance().getMessages().getString("viewProfile.confirmChanges"), null, 1)==0){
+                        try {
+                            String sql = "UPDATE users SET name = ? , gender=?, address=? WHERE userId = ?";
+                            Connection con = DBHelper.getConnection();
+                            PreparedStatement pstmt = con.prepareStatement(sql);
+                            pstmt.setString(1, nameField.getText());
+                            pstmt.setString(2, genderField.getText());
+                            pstmt.setString(3, addressField.getText());
+                            pstmt.setInt(4, user.getId());
+                            pstmt.executeUpdate();
+                            JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("viewProfile.successfulUpdate"));
+                            frame.dispose();
+                            mainMenu.show(user);
+    
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null,LanguageManager.getInstance().getMessages().getString("viewProfile.errorUpdating") );
+                        }
+                    }else{}
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Please enter a valid gender. Male/Female");
+                }
             }
         });
+        
         
 
 

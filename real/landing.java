@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 public class landing {
     private static JFrame frame;
     private static JButton login, createAcc;
-        
+    @SuppressWarnings("unused")
     public static void show(){
         frame = new JFrame("Landing Page");
         login = new JButton("Login");
@@ -23,10 +23,10 @@ public class landing {
         languageMap.put("English", Locale.ENGLISH);
         languageMap.put("日本語", Locale.JAPANESE);
         languageMap.put("Deutsch", Locale.GERMAN);
-        languageMap.put("Polski", Locale.FRENCH);
-        languageMap.put("Русский", Locale.ITALIAN);
-        //languageMap.put("Français", Locale.FRENCH);  // Example: Add more languages here
-
+        languageMap.put("Polski", Locale.of("pl", "PL"));
+        languageMap.put("Русский", Locale.of("ru", "RU"));
+        languageMap.put("Gaeilge", Locale.of("ie", "IE"));
+        
         JComboBox<String> languageSelector = new JComboBox<>(languageMap.keySet().toArray(new String[0]));
         languageSelector.addActionListener((ActionEvent e) -> {
             String selectedLanguage = (String) languageSelector.getSelectedItem();

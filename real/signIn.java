@@ -3,6 +3,9 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 //import java.sql.SQLDataException;
 import java.sql.SQLException;
 
@@ -42,8 +45,12 @@ public class signIn {
                             mainMenu.show(user);
                             frame.dispose();
                         }
-                    } catch (SQLException excep) {
-                        excep.printStackTrace();
+                    }catch (SQLException excep) {
+                        try (PrintWriter out = new PrintWriter(new FileWriter("error.log", true))) {
+                            out.println("Error: " + excep.getMessage());
+                        }catch (IOException ioException) {
+                            ioException.printStackTrace(); // fallback in case writing to file fails
+                        }
                         JOptionPane.showMessageDialog(null, "No Account found!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     catch(Exception excep){

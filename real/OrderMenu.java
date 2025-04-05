@@ -5,6 +5,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unused")
 public class OrderMenu {
     private static menuItem order[] = new menuItem[25];
     private static int i = 0;

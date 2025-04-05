@@ -1,7 +1,11 @@
 package real;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -141,19 +145,20 @@ public class User {
                 con.close();    
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            try (PrintWriter out = new PrintWriter(new FileWriter("error.log", true))) {
+                out.println("Error: " + e.getMessage());
+            }catch (IOException ioException) {
+                ioException.printStackTrace(); // fallback in case writing to file fails
+            }
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return null;
-
-        //System.out.println(currentUser.toString());
+                return null;
     }
 
     
     public String toString(){
         return ("name: "+name + "\n address: "+address+ "\n Gender: "+gender+ "\n Points:: "+pointAmount );
-        
     }
      
     

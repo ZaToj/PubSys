@@ -143,7 +143,7 @@ public class createAccount {
         }
     }    
     public static void validatePass(String pass) throws Exception {
-        if(pass.length()>6){
+        if(pass.length()<6){
             throw new Exception("Ensure password is longer than 6 chaacetrs");
         }
     }

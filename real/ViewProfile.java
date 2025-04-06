@@ -37,10 +37,8 @@ public class ViewProfile {
         JTextField nameField = new JTextField(user.getName());
         nameField.setEnabled(false);
 
-
         JLabel ageLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.age"));
-        JTextField ageField = new JTextField(String.valueOf(user.getAge()));
-        ageField.setEnabled(false);
+        JLabel ageValuLabel = new JLabel(String.valueOf(user.getAge()));
 
         JLabel addressLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.address"));
         JTextField addressField = new JTextField(user.getAddress());
@@ -58,7 +56,7 @@ public class ViewProfile {
         detailsPanel.add(nameField);
 
         detailsPanel.add(ageLabel);
-        detailsPanel.add(ageField);
+        detailsPanel.add(ageValuLabel);
 
         detailsPanel.add(addressLabel);
         detailsPanel.add(addressField);
@@ -93,7 +91,6 @@ public class ViewProfile {
                 boolean editable = enableEdit.isSelected();
                 enableEdit.setText(editable ? LanguageManager.getInstance().getMessages().getString("viewProfile.disableEdit") : LanguageManager.getInstance().getMessages().getString("viewProfile.enableEdit"));
                 nameField.setEnabled(editable);
-                ageField.setEnabled(editable);
                 addressField.setEnabled(editable);
                 genderField.setEnabled(editable);
             }

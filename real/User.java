@@ -66,7 +66,7 @@ public class User {
 
     public  String passHasher(String passIn){
         //
-        //takes in string and gets the acscii value of each char, concatanates them to a string and takes the frist 6 which is then turned to binar (20 digits)
+        //takes in string and gets the acscii value of each char, concatanates them to a string and takes the frist 3 and last 3 which is then turned to binary (20 digits)
         //
         String out="";
         String concat="";

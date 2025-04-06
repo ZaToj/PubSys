@@ -7,40 +7,70 @@ import java.sql.*;
 public class mainMenu {
     private static User user;
 
-    public static void show(User useri){
-        user=useri;
-        //add in user update for everytime they come back here
+    public static void show(User useri) {
+        user = useri;
         JFrame frame = new JFrame("Main Menu");
         JButton button = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.order"));
         JButton button2 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.viewProfile"));
         JButton button3 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.orderHistory"));
         JButton button4 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.bookTable"));
         JButton adminMenuButton = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.admin"));
-        //Label button1Label = new Label("Order");
         user = updateUser(user);
+       
+        // Increase font size (buttons will grow to accommodate text)
+        Font buttonFont = new Font("Arial", Font.PLAIN, 30); // Adjust size (20) as needed
+        button.setFont(buttonFont);
+        button2.setFont(buttonFont);
+        button3.setFont(buttonFont);
+        button4.setFont(buttonFont);
+        adminMenuButton.setFont(buttonFont);
+
+        JLabel logoLabel; //try get logo
+        try {
+            ImageIcon logo = new ImageIcon("Imgs/logo.png"); // Replace with your logo path
+            logoLabel = new JLabel(logo);
+            logoLabel.setHorizontalAlignment(JLabel.CENTER); // Center the logo
+        } catch (Exception e) {
+            logoLabel = new JLabel("Logo not found");
+            logoLabel.setHorizontalAlignment(JLabel.CENTER);
+            e.printStackTrace();
+        }
+        // Create a panel with BoxLayout
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         
-        frame.setLayout( new GridLayout(0,1) ); // set frame layout
-        frame.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
-        frame.setSize ( 900, 900) ;
-        frame.setVisible ( true ) ;
-        frame.setLocation ( 150, 150 );
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        frame.add(button);
-        frame.add(button2);
-        frame.add(button3);
-        frame.add(button4);
+        // Add horizontal glue for centering
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(button);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Space between buttons
+        buttonPanel.add(button2);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(button3);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(button4);
+        if(user.isAdmin()) {
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+            buttonPanel.add(adminMenuButton);
+        }
+        buttonPanel.add(Box.createHorizontalGlue());
+    
+        frame.setLayout(new BorderLayout());
+        frame.add(logoLabel, BorderLayout.NORTH);    
+        frame.add(buttonPanel, BorderLayout.CENTER); 
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.add(button1Label);
+        frame.setSize(900, 900);
+        frame.setLocation(150, 150);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
         button.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
                 OrderMenu.show(user);
             }
+          
         });
-        if(user.isAdmin()){
-            frame.add(adminMenuButton);
-        }
         button2.addActionListener(new ActionListener() {
           
             public void actionPerformed(java.awt.event.ActionEvent e){
@@ -67,7 +97,7 @@ public class mainMenu {
         });
 
         button4.addActionListener(new ActionListener() {
-          
+ 
             public void actionPerformed(java.awt.event.ActionEvent e){
                 frame.dispose();
                 bookTable.show(user);

@@ -3,7 +3,6 @@ package real;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.foreign.AddressLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -14,6 +13,7 @@ public class ViewProfile {
     private static JPanel sidebarPanel = new JPanel();
 
     public static void show(User user) {
+        Font buttonFont = LanguageManager.getInstance().getFont(); 
         contentPanel = new JPanel();
         sidebarPanel = new JPanel();
         JFrame frame = new JFrame(LanguageManager.getInstance().getMessages().getString("viewProfile.title"));
@@ -29,24 +29,36 @@ public class ViewProfile {
         // Labels (non-editable text)
         JLabel idLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.userId"));
         JLabel idValueLabel = new JLabel(""+user.getId());
+        idLabel.setFont(buttonFont);
+        idValueLabel.setFont(buttonFont);
 
         JLabel pointsLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.points"));
         JLabel pointsValueLabel = new JLabel(String.valueOf(user.getPointAmount()));
+        pointsLabel.setFont(buttonFont);
+        pointsValueLabel.setFont(buttonFont);
 
         JLabel nameLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.name"));
         JTextField nameField = new JTextField(user.getName());
         nameField.setEnabled(false);
+        nameLabel.setFont(buttonFont);
+        nameField.setFont(buttonFont);
 
         JLabel ageLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.age"));
         JLabel ageValuLabel = new JLabel(String.valueOf(user.getAge()));
+        ageLabel.setFont(buttonFont);
+        ageValuLabel.setFont(buttonFont);
 
         JLabel addressLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.address"));
         JTextField addressField = new JTextField(user.getAddress());
         addressField.setEnabled(false);
+        addressLabel.setFont(buttonFont);
+        addressField.setFont(buttonFont);
 
         JLabel genderLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.gender"));
         JTextField genderField = new JTextField(user.getGender());
         genderField.setEnabled(false);
+        genderLabel.setFont(buttonFont);
+        genderField.setFont(buttonFont);
 
         // Add elements to the details panel
         detailsPanel.add(idLabel);
@@ -134,6 +146,10 @@ public class ViewProfile {
 
         // Add buttons to sidebar
         //sidebarPanel.add(new );
+        enableEdit.setFont(buttonFont);
+        saveButton.setFont(buttonFont);
+        returnButton.setFont(buttonFont);
+
         sidebarPanel.add(Box.createVerticalStrut(20)); // Spacing
         sidebarPanel.add(enableEdit);
         sidebarPanel.add(Box.createVerticalStrut(20)); // Spacing

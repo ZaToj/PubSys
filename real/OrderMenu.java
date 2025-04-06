@@ -59,7 +59,11 @@ public class OrderMenu {
         model = new DefaultListModel<>();
         list = new JList<>(model);
         subTotalLabel = new JLabel();
-
+        Font buttonFont = new Font("Arial", Font.PLAIN, 16); 
+        orderButton.setFont(buttonFont);
+        returnButton.setFont(buttonFont);
+        list.setFont(buttonFont);
+        subTotalLabel.setFont(buttonFont);
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(orderButton);
         controlsPanel.add(Box.createVerticalGlue());

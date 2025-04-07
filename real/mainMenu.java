@@ -18,7 +18,7 @@ public class mainMenu {
         user = updateUser(user);
        
         // Increase font size (buttons will grow to accommodate text)
-        Font buttonFont = new Font("Arial", Font.PLAIN, 30); // Adjust size (20) as needed
+        Font buttonFont = LanguageManager.getInstance().getFont(30);
         button.setFont(buttonFont);
         button2.setFont(buttonFont);
         button3.setFont(buttonFont);

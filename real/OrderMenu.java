@@ -17,6 +17,8 @@ public class OrderMenu {
     private static JList<String> list;
     private static JFrame frame;
     private static JButton returnButton, orderButton;
+    private static JComboBox<String> categoryFilter; // Added JComboBox
+    private static JPanel optionsPanel; 
 
     public static void show(User user) {
         frame = new JFrame();
@@ -30,6 +32,13 @@ public class OrderMenu {
         controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
         controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
         controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+        // Add category filter
+        String[] categories = {"Both", "Food", "Drinks"};
+        categoryFilter = new JComboBox<>(categories);
+        categoryFilter.setMaximumSize(new Dimension(150, 30));
+        categoryFilter.setAlignmentX(Component.CENTER_ALIGNMENT);
+        categoryFilter.addActionListener(e -> refreshMenuItems());
 
         returnButton = new JButton();
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -59,11 +68,15 @@ public class OrderMenu {
         model = new DefaultListModel<>();
         list = new JList<>(model);
         subTotalLabel = new JLabel();
-        Font buttonFont = new Font("Arial", Font.PLAIN, 16); 
+        Font buttonFont = LanguageManager.getInstance().getFont(16);
         orderButton.setFont(buttonFont);
         returnButton.setFont(buttonFont);
         list.setFont(buttonFont);
         subTotalLabel.setFont(buttonFont);
+        categoryFilter.setFont(buttonFont);
+
+        controlsPanel.add(Box.createVerticalStrut(20));
+        controlsPanel.add(categoryFilter); // Add filter to controls
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(orderButton);
         controlsPanel.add(Box.createVerticalGlue());
@@ -74,26 +87,41 @@ public class OrderMenu {
         controlsPanel.add(returnButton);
 
         // Main Options Panel
-        JPanel optionsPanel = new JPanel();
+        optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(3, 0, 10, 10));
         optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Load menu items
-        for (int j = 1; j < 10; j++) {
-            menuItem item = menuItem.getMenuItem(j);
-            if (item != null) {
-                JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(), item.getImgFilePath(), item.getItemId(), item.getPointAmount());
-                optionsPanel.add(itemPanel);
-            }
-        }
+        // Initial load of menu items
+        refreshMenuItems();
 
         // Add panels to frame
         frame.add(controlsPanel, BorderLayout.WEST);
         frame.add(optionsPanel, BorderLayout.CENTER);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        updateLanguage(); // Set initial text
+        updateLanguage();
         frame.setVisible(true);
+    }
+
+    private static void refreshMenuItems() {
+        optionsPanel.removeAll();
+        String selectedCategory = (String) categoryFilter.getSelectedItem();
+
+        for (int j = 1; j < 10; j++) {
+            menuItem item = menuItem.getMenuItem(j);
+            if (item != null) {
+                String itemType = item instanceof foodItem ? "food" : item instanceof drinkItem ? "drink" : "";
+                if (selectedCategory.equals("Both") ||
+                    (selectedCategory.equals("Food") && itemType.equals("food")) ||
+                    (selectedCategory.equals("Drinks") && itemType.equals("drink"))) {
+                    JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(),
+                            item.getImgFilePath(), item.getItemId(), item.getPointAmount());
+                    optionsPanel.add(itemPanel);
+                }
+            }
+        }
+        optionsPanel.revalidate();
+        optionsPanel.repaint();
     }
 
     private static void updateLanguage() {
@@ -141,11 +169,14 @@ public class OrderMenu {
         String priceText = "$" + price;
 
         ImageIcon icon = new ImageIcon(imagePath);
-        Image img = icon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(300, 240, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(img));
 
         JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
         JLabel priceLabel = new JLabel(priceText, SwingConstants.CENTER);
+        Font font = LanguageManager.getInstance().getFont(18);
+        nameLabel.setFont(font);
+        priceLabel.setFont(font);
 
         JButton button = new JButton(LanguageManager.getInstance().getMessages().getString("ordermenu.select"));
         button.addActionListener(e -> {

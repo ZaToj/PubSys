@@ -35,6 +35,21 @@ public class LanguageManager {
                 return new Font("Arial", Font.PLAIN, fontSize);
         }
     }
+    public Font getFont(int size) {
+        // Return a font based on the current locale
+        String language = locale.getLanguage();
+        int fontSize = size; // Default size, you can adjust this
+        
+        switch (language) {
+            case "en": // English
+                return new Font("Arial", Font.PLAIN, fontSize);
+            case "ja": // Japanese
+                return new Font("MS Gothic", Font.PLAIN, fontSize);
+            default:
+                // Fallback font for unsupported languages
+                return new Font("Arial", Font.PLAIN, fontSize);
+        }
+    }
     public void setLocale(Locale newLocale) {
         this.locale = newLocale;
         this.messages = ResourceBundle.getBundle("real.messages", locale);

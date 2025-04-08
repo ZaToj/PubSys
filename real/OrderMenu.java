@@ -26,27 +26,27 @@ public class OrderMenu {
         frame.setLayout(new BorderLayout(10, 10));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(150, 150);
-
+    
         // Sidebar (Control Panel)
         controlsPanel = new JPanel();
         controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
         controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
         controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-
+    
         // Add category filter
         String[] categories = {"Both", "Food", "Drinks"};
         categoryFilter = new JComboBox<>(categories);
         categoryFilter.setMaximumSize(new Dimension(150, 30));
         categoryFilter.setAlignmentX(Component.CENTER_ALIGNMENT);
         categoryFilter.addActionListener(e -> refreshMenuItems());
-
+    
         returnButton = new JButton();
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         returnButton.addActionListener(e -> {
             clear(user);
             frame.dispose();
         });
-
+    
         orderButton = new JButton();
         orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         orderButton.addActionListener(e -> {
@@ -64,7 +64,7 @@ public class OrderMenu {
                 JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.orderFail"));
             }
         });
-
+    
         model = new DefaultListModel<>();
         list = new JList<>(model);
         subTotalLabel = new JLabel();
@@ -74,9 +74,9 @@ public class OrderMenu {
         list.setFont(buttonFont);
         subTotalLabel.setFont(buttonFont);
         categoryFilter.setFont(buttonFont);
-
+    
         controlsPanel.add(Box.createVerticalStrut(20));
-        controlsPanel.add(categoryFilter); // Add filter to controls
+        controlsPanel.add(categoryFilter);
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(orderButton);
         controlsPanel.add(Box.createVerticalGlue());
@@ -85,45 +85,114 @@ public class OrderMenu {
         controlsPanel.add(Box.createVerticalStrut(20));
         controlsPanel.add(subTotalLabel);
         controlsPanel.add(returnButton);
-
-        // Main Options Panel
+        orderButton.setMaximumSize(new Dimension(150, 30));
+        returnButton.setMaximumSize(new Dimension(150, 30));
+        list.setMaximumSize(new Dimension(150, Integer.MAX_VALUE));
+        subTotalLabel.setMaximumSize(new Dimension(150, 30));
+    
+        // Main Options Panel Container
+        JPanel optionsContainer = new JPanel();
+        optionsContainer.setLayout(new BoxLayout(optionsContainer, BoxLayout.Y_AXIS)); // Stack grids vertically
+    
+        // Create the first 3x3 grid
         optionsPanel = new JPanel();
-        optionsPanel.setLayout(new GridLayout(3, 0, 10, 10));
+        optionsPanel.setLayout(new GridLayout(3, 3, 10, 10)); // 3x3 grid
         optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+    
+        // Add the first optionsPanel to the container
+        optionsContainer.add(optionsPanel);
+    
+        // Wrap the container in a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(optionsContainer);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Smooth scrolling
+    
         // Initial load of menu items
         refreshMenuItems();
-
+    
         // Add panels to frame
         frame.add(controlsPanel, BorderLayout.WEST);
-        frame.add(optionsPanel, BorderLayout.CENTER);
+        frame.add(scrollPane, BorderLayout.CENTER);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+    
         updateLanguage();
         frame.setVisible(true);
     }
-
+    
     private static void refreshMenuItems() {
-        optionsPanel.removeAll();
+        // Clear the current options container
+        JPanel optionsContainer = (JPanel) optionsPanel.getParent();
+        optionsContainer.removeAll();
+    
         String selectedCategory = (String) categoryFilter.getSelectedItem();
-
-        for (int j = 1; j < 10; j++) {
-            menuItem item = menuItem.getMenuItem(j);
-            if (item != null) {
-                String itemType = item instanceof foodItem ? "food" : item instanceof drinkItem ? "drink" : "";
-                if (selectedCategory.equals("Both") ||
-                    (selectedCategory.equals("Food") && itemType.equals("food")) ||
-                    (selectedCategory.equals("Drinks") && itemType.equals("drink"))) {
-                    JPanel itemPanel = createMenuItem(item.getItemName(), item.getItemCost(),
-                            item.getImgFilePath(), item.getItemId(), item.getPointAmount());
-                    optionsPanel.add(itemPanel);
+        int itemCount = 0;
+    
+        try {
+            Connection con = DBHelper.getConnection();
+            String query = "SELECT itemId FROM menuItems";
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+    
+            optionsPanel = new JPanel(new GridLayout(3, 3, 20, 20)); // Increased spacing
+            optionsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            optionsPanel.setMaximumSize(new Dimension(1050, 1050)); // Increased size for larger items (3 * 350 + 20 * 2)
+    
+            while (rs.next()) {
+                int itemId = rs.getInt("itemId");
+                menuItem item = menuItem.getMenuItem(itemId);
+    
+                if (item != null) {
+                    String itemType = item instanceof foodItem ? "food" :
+                                      item instanceof drinkItem ? "drink" : "";
+    
+                    if (selectedCategory.equals("Both") ||
+                        (selectedCategory.equals("Food") && itemType.equals("food")) ||
+                        (selectedCategory.equals("Drinks") && itemType.equals("drink"))) {
+    
+                        if (itemCount > 0 && itemCount % 9 == 0) {
+                            // Add the current 3x3 grid to the container and start a new one
+                            optionsContainer.add(optionsPanel);
+                            optionsPanel = new JPanel(new GridLayout(3, 3, 20, 20));
+                            optionsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                            optionsPanel.setMaximumSize(new Dimension(1050, 1050)); // Increased size for larger items
+                        }
+    
+                        JPanel itemPanel = createMenuItem(
+                            item.getItemName(),
+                            item.getItemCost(),
+                            item.getImgFilePath(),
+                            item.getItemId(),
+                            item.getPointAmount()
+                        );
+                        optionsPanel.add(itemPanel);
+                        itemCount++;
+                    }
                 }
             }
+    
+            // Add the last panel if it has items
+            if (itemCount > 0) {
+                // Fill remaining slots in the last grid with empty panels
+                while (itemCount % 9 != 0) {
+                    optionsPanel.add(new JPanel());
+                    itemCount++;
+                }
+                optionsContainer.add(optionsPanel);
+            }
+    
+            rs.close();
+            stmt.close();
+            con.close();
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error loading menu items from database.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        optionsPanel.revalidate();
-        optionsPanel.repaint();
-    }
-
+    
+        optionsContainer.revalidate();
+        optionsContainer.repaint();
+    }    
     private static void updateLanguage() {
         ResourceBundle messages = LanguageManager.getInstance().getMessages();
         frame.setTitle(messages.getString("ordermenu.title"));
@@ -163,22 +232,25 @@ public class OrderMenu {
         JPanel panel = new JPanel();
         menuItem tempItem = new menuItem(itemId, price, name, imagePath, pointAmount);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(150, 150));
+        panel.setPreferredSize(new Dimension(350, 350)); // Increased size for each item
+        panel.setMaximumSize(new Dimension(350, 350)); // Prevent stretching
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-
+    
         String priceText = "$" + price;
-
+    
         ImageIcon icon = new ImageIcon(imagePath);
-        Image img = icon.getImage().getScaledInstance(300, 240, Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(250, 200, Image.SCALE_SMOOTH); // Increased image size
         JLabel imageLabel = new JLabel(new ImageIcon(img));
-
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    
         JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
         JLabel priceLabel = new JLabel(priceText, SwingConstants.CENTER);
-        Font font = LanguageManager.getInstance().getFont(18);
+        Font font = LanguageManager.getInstance().getFont(18); // Increased font size for better readability
         nameLabel.setFont(font);
         priceLabel.setFont(font);
-
+    
         JButton button = new JButton(LanguageManager.getInstance().getMessages().getString("ordermenu.select"));
+        button.setFont(font);
         button.addActionListener(e -> {
             if (i < order.length) {
                 order[i] = tempItem;
@@ -191,18 +263,17 @@ public class OrderMenu {
                 JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.orderLimit"));
             }
         });
-
+    
         JPanel textPanel = new JPanel(new GridLayout(2, 1));
         textPanel.add(nameLabel);
         textPanel.add(priceLabel);
-
+    
+        panel.add(button, BorderLayout.NORTH);
         panel.add(imageLabel, BorderLayout.CENTER);
         panel.add(textPanel, BorderLayout.SOUTH);
-        panel.add(button, BorderLayout.NORTH);
-
+    
         return panel;
     }
-
     public static boolean processsOrder(User user) {
         if (oc == 0) {
             JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("ordermenu.noItems"));

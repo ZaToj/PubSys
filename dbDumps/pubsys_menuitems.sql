@@ -31,7 +31,7 @@ CREATE TABLE `menuitems` (
   `hasAlco` int DEFAULT NULL,
   `pointsAmount` int DEFAULT NULL,
   PRIMARY KEY (`itemId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `menuitems` (
 
 LOCK TABLES `menuitems` WRITE;
 /*!40000 ALTER TABLE `menuitems` DISABLE KEYS */;
-INSERT INTO `menuitems` VALUES (1,'burger',1000,'Imgs\\snack.jpg','food',0,10),(2,'chippies',10,'Imgs\\chips.jpg','food',0,4),(3,'lasagna',16,'Imgs\\lasagna.jpg','food',0,3),(4,'Soup',5,'Imgs\\soup.jpg','food',0,7),(5,'sambo',14,'Imgs\\sambo.jpg','food',0,3),(6,'sosig',1,'Imgs\\sosig.jpg','food',0,7),(7,'cake',4,'Imgs\\cake.jpg','food',0,9),(8,'red Sauce',9,'Imgs\\redSauce.jpg','food',0,2),(9,'pringes',122,'Imgs\\pringles.jpg','food',0,4);
+INSERT INTO `menuitems` VALUES (1,'Burger',1000,'Imgs\\snack.jpg','food',0,10),(2,'Chips',10,'Imgs\\chips.jpg','drink',0,4),(3,'Lasagna',16,'Imgs\\lasagna.jpg','food',0,3),(4,'Soup',5,'Imgs\\soup.jpg','food',0,7),(5,'Sandwhich',14,'Imgs\\sambo.jpg','food',0,3),(6,'Sausage',1,'Imgs\\sosig.jpg','food',0,7),(7,'Cake',4,'Imgs\\cake.jpg','food',0,9),(8,'Red Sauce',9,'Imgs\\redSauce.jpg','food',0,2),(9,'Pringles',122,'Imgs\\pringles.jpg','food',0,4),(10,'Draft Beer',5,'Imgs\\DraftBeer.jpg','drink',1,3),(11,'Coke',2,'Imgs\\Coke.jpg','drink',0,2),(12,'Salad',4,'Imgs\\Salad.jpg','food',0,2),(13,'PorkChop',6,'Imgs\\Porkchop.jpg','food',0,4),(14,'Spicy Chips',3,'Imgs\\SChips.jpg','food',0,12),(15,'Water',0,'Imgs/water.jpg','drink',0,1),(16,'Asahi',6,'Imgs\\Asahi.jpg','drink',1,5),(17,'Strawberry Daiquiri',8,'Imgs\\strawberryDaiquiri.jpg','drink',1,6),(18,'Fosters',5,'Imgs\\fosters.jpg','drink',1,3),(19,'Mutton',12,'Imgs\\mutton.jpg','food',0,23),(20,'Vodka',6,'Imgs\\vodka.jpg','drink',1,12),(21,'Pepsi',3,'Imgs\\pepsi.jpg','drink',0,2);
 /*!40000 ALTER TABLE `menuitems` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-02  4:19:10
+-- Dump completed on 2025-04-08 19:25:18

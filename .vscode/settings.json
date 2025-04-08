@@ -6,5 +6,6 @@
     "java.project.referencedLibraries": [
         "lib\\mysql-connector-j-9.2.0.jar",
         "c:\\Coll\\sem2\\PubSys\\lib\\mysql-connector-j-9.2.0.jar"
-    ]
+    ],
+    "java.dependency.packagePresentation": "hierarchical"
 }

@@ -10,31 +10,17 @@ package real;
     public class bookTable {
 
         public static void show(User user) {
-            JFrame frame = new JFrame("book table");
-            frame.setSize(800, 600);
-            frame.setLayout(new BorderLayout(10, 10));
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLocation(150, 150);
-            frame.setVisible(true);
-            JPanel controlsPanel = new JPanel();
-    
-            // Sidebar (Control Panel)
-            controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
-            controlsPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
-            controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-    
-            JButton returnButton = new JButton("Return");
-            returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            returnButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    frame.dispose();
-                    mainMenu.show(user);
+            SwingUtilities.invokeLater((new Runnable() {
+                @Override
+                public void run(){
+                    RestaurantTableBooking frame = new RestaurantTableBooking();
+                    frame.setVisible(true);
                 }
-            });
+            }));
         }
         
     
-    public class RestaurantTableBooking extends JFrame {
+    public static class RestaurantTableBooking extends JFrame {
         private JLabel backgroundLabel;
         private JPanel tablePanel;
         private HashMap<Integer, Boolean> tableStatus = new HashMap<>();

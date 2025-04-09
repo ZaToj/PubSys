@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -156,7 +158,55 @@ public class User {
                 return null;
     }
 
+    public String getFav(int op) {
+        String type = (op == 1) ? "food" : "drink"; // Simplified type selection
+        String sql = "SELECT oi.itemid, mi.itemName " +
+                     "FROM orders o " +
+                     "JOIN orderitems oi ON o.orderid = oi.orderid " +
+                     "JOIN menuitems mi ON oi.itemid = mi.itemId " +
+                     "WHERE o.userid = ? AND mi.type = ?";
     
+        Map<String, Integer> itemCounts = new HashMap<>(); // Map to store item counts by name
+    
+        try {
+            Connection con = DBHelper.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+    
+            pstmt.setInt(1, getId()); // Assuming getId() returns the user's ID
+            pstmt.setString(2, type);
+            ResultSet rs = pstmt.executeQuery();
+    
+            // Count occurrences of each item name
+            while (rs.next()) {
+                String itemName = rs.getString("itemName");
+                itemCounts.put(itemName, itemCounts.getOrDefault(itemName, 0) + 1);
+            }
+    
+            // Find the item with the highest count
+            String mostOrderedItem = "";
+            int maxCount = 0;
+    
+            for (Map.Entry<String, Integer> entry : itemCounts.entrySet()) {
+                if (entry.getValue() > maxCount) {
+                    mostOrderedItem = entry.getKey();
+                    maxCount = entry.getValue();
+                }
+            }
+    
+            // Close resources
+            rs.close();
+            pstmt.close();
+            con.close();
+    
+            // Return the most ordered item, or a message if none found
+            return maxCount > 0 ? mostOrderedItem : "No " + type + " items ordered";
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error loading menu items from database.", "Error", JOptionPane.ERROR_MESSAGE);
+            return "Error retrieving favorite " + type;
+        }
+    }    
     public String toString(){
         return ("name: "+name + "\n address: "+address+ "\n Gender: "+gender+ "\n Points:: "+pointAmount );
     }

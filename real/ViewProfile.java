@@ -24,13 +24,23 @@ public class ViewProfile {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create the details panel with GridLayout
-        JPanel detailsPanel = new JPanel(new GridLayout(7, 2, 10, 10)); // 7 rows, 2 columns
+        JPanel detailsPanel = new JPanel(new GridLayout(9, 2, 10, 10)); // 7 rows, 2 columns
 
         // Labels (non-editable text)
         JLabel idLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.userId"));
         JLabel idValueLabel = new JLabel(""+user.getId());
         idLabel.setFont(buttonFont);
         idValueLabel.setFont(buttonFont);
+        
+        JLabel favDLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.favDrink"));
+        JLabel favDValueLabel = new JLabel(user.getFav(2));
+        favDLabel.setFont(buttonFont);
+        favDValueLabel.setFont(buttonFont);
+        
+        JLabel favFLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.favFood"));
+        JLabel favFValueLabel = new JLabel(user.getFav(1));
+        favFLabel.setFont(buttonFont);
+        favFValueLabel.setFont(buttonFont);
 
         JLabel pointsLabel = new JLabel(LanguageManager.getInstance().getMessages().getString("viewProfile.points"));
         JLabel pointsValueLabel = new JLabel(String.valueOf(user.getPointAmount()));
@@ -78,6 +88,12 @@ public class ViewProfile {
 
         detailsPanel.add(pointsLabel);
         detailsPanel.add(pointsValueLabel);
+        
+        detailsPanel.add(favDLabel);
+        detailsPanel.add(favDValueLabel);
+        
+        detailsPanel.add(favFLabel);
+        detailsPanel.add(favFValueLabel);
 
         // Sidebar (Control Panel)
         sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS));

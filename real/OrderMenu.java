@@ -38,7 +38,7 @@ public class OrderMenu {
         categoryFilter = new JComboBox<>(categories);
         categoryFilter.setMaximumSize(new Dimension(150, 30));
         categoryFilter.setAlignmentX(Component.CENTER_ALIGNMENT);
-        categoryFilter.addActionListener(e -> refreshMenuItems());
+        categoryFilter.addActionListener(e -> refreshMenuItems(user));
     
         returnButton = new JButton();
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -109,7 +109,7 @@ public class OrderMenu {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Smooth scrolling
     
         // Initial load of menu items
-        refreshMenuItems();
+        refreshMenuItems(user);
     
         // Add panels to frame
         frame.add(controlsPanel, BorderLayout.WEST);
@@ -120,7 +120,7 @@ public class OrderMenu {
         frame.setVisible(true);
     }
     
-    private static void refreshMenuItems() {
+    private static void refreshMenuItems(User user) {
         // Clear the current options container
         JPanel optionsContainer = (JPanel) optionsPanel.getParent();
         optionsContainer.removeAll();
@@ -130,13 +130,17 @@ public class OrderMenu {
     
         try {
             Connection con = DBHelper.getConnection();
-            String query = "SELECT itemId FROM menuItems";
-            PreparedStatement stmt = con.prepareStatement(query);
+            String sql = "SELECT itemId FROM menuItems WHERE hasAlco =0";
+            if(user.getAge()>=18){
+                sql = "SELECT itemId FROM menuItems";
+            }
+
+            PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
     
-            optionsPanel = new JPanel(new GridLayout(3, 3, 20, 20)); // Increased spacing
+            optionsPanel = new JPanel(new GridLayout(3, 3, 20, 20)); 
             optionsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            optionsPanel.setMaximumSize(new Dimension(1050, 1050)); // Increased size for larger items (3 * 350 + 20 * 2)
+            optionsPanel.setMaximumSize(new Dimension(1050, 1050)); 
     
             while (rs.next()) {
                 int itemId = rs.getInt("itemId");
@@ -151,11 +155,10 @@ public class OrderMenu {
                         (selectedCategory.equals("Drinks") && itemType.equals("drink"))) {
     
                         if (itemCount > 0 && itemCount % 9 == 0) {
-                            // Add the current 3x3 grid to the container and start a new one
                             optionsContainer.add(optionsPanel);
                             optionsPanel = new JPanel(new GridLayout(3, 3, 20, 20));
                             optionsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                            optionsPanel.setMaximumSize(new Dimension(1050, 1050)); // Increased size for larger items
+                            optionsPanel.setMaximumSize(new Dimension(1050, 1050)); 
                         }
     
                         JPanel itemPanel = createMenuItem(
@@ -170,10 +173,7 @@ public class OrderMenu {
                     }
                 }
             }
-    
-            // Add the last panel if it has items
             if (itemCount > 0) {
-                // Fill remaining slots in the last grid with empty panels
                 while (itemCount % 9 != 0) {
                     optionsPanel.add(new JPanel());
                     itemCount++;
@@ -232,20 +232,20 @@ public class OrderMenu {
         JPanel panel = new JPanel();
         menuItem tempItem = new menuItem(itemId, price, name, imagePath, pointAmount);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(350, 350)); // Increased size for each item
-        panel.setMaximumSize(new Dimension(350, 350)); // Prevent stretching
+        panel.setPreferredSize(new Dimension(350, 350)); 
+        panel.setMaximumSize(new Dimension(350, 350)); 
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     
         String priceText = "$" + price;
     
         ImageIcon icon = new ImageIcon(imagePath);
-        Image img = icon.getImage().getScaledInstance(250, 200, Image.SCALE_SMOOTH); // Increased image size
+        Image img = icon.getImage().getScaledInstance(250, 200, Image.SCALE_SMOOTH); 
         JLabel imageLabel = new JLabel(new ImageIcon(img));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
     
         JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
         JLabel priceLabel = new JLabel(priceText, SwingConstants.CENTER);
-        Font font = LanguageManager.getInstance().getFont(18); // Increased font size for better readability
+        Font font = LanguageManager.getInstance().getFont(18); 
         nameLabel.setFont(font);
         priceLabel.setFont(font);
     

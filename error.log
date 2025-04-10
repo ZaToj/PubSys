@@ -1,1 +1,4 @@
 Error: Unknown column 'password' in 'where clause'
+Error: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.

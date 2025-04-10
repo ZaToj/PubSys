@@ -91,11 +91,9 @@ public class OrderMenu {
         list.setMaximumSize(new Dimension(150, Integer.MAX_VALUE));
         subTotalLabel.setMaximumSize(new Dimension(150, 30));
     
-        // Main Options Panel Container
         JPanel optionsContainer = new JPanel();
         optionsContainer.setLayout(new BoxLayout(optionsContainer, BoxLayout.Y_AXIS)); // Stack grids vertically
     
-        // Create the first 3x3 grid
         optionsPanel = new JPanel();
         optionsPanel.setLayout(new GridLayout(3, 3, 10, 10)); // 3x3 grid
         optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -103,7 +101,6 @@ public class OrderMenu {
         // Add the first optionsPanel to the container
         optionsContainer.add(optionsPanel);
     
-        // Wrap the container in a JScrollPane
         JScrollPane scrollPane = new JScrollPane(optionsContainer);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

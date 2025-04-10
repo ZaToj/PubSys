@@ -97,16 +97,7 @@ public class User {
         setPass(out);
         return out;
     }
-    public User getUser(String nameInput,String inPass) throws Exception{
-        /* 
-        String userDob = null;
-        String userAddress = null;
-        String userGender = null;
-        int userPoints = 0;
-        int userId=0;
-        boolean canLeave=false;
-        */
-    
+    public User getUser(String nameInput,String inPass) throws Exception{    
         try {
             Connection con = DBHelper.getConnection();
             String query = "SELECT * FROM users WHERE name = ? AND password = ?";

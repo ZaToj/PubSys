@@ -77,13 +77,13 @@ public class adminMaker {
                 JButton personButton = new JButton(name);
                 personButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        boolean currentStatus = adminStatus.get(name); // Get updated status
+                        boolean currentStatus = adminStatus.get(name); 
 
                         if (currentStatus) { 
                             int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove " + name + " as an admin?");
                             if (choice == 0) {
                                 deCrown(name, user2);
-                                adminStatus.put(name, false); // Update local admin status
+                                adminStatus.put(name, false); 
                             } else {
                                 JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("adminMaker.abortion"));
                             }
@@ -91,7 +91,7 @@ public class adminMaker {
                             int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to make " + name + " an admin?");
                             if (choice == 0) {
                                 crown(name, user2);
-                                adminStatus.put(name, true); // Update local admin status
+                                adminStatus.put(name, true); 
                             } else {
                                 JOptionPane.showMessageDialog(null, LanguageManager.getInstance().getMessages().getString("adminMaker.abortion"));
                             }

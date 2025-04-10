@@ -27,9 +27,9 @@ public class mainMenu {
 
         JLabel logoLabel; //try get logo
         try {
-            ImageIcon logo = new ImageIcon("Imgs/logo.png"); // Replace with your logo path
+            ImageIcon logo = new ImageIcon("Imgs/logo.png");
             logoLabel = new JLabel(logo);
-            logoLabel.setHorizontalAlignment(JLabel.CENTER); // Center the logo
+            logoLabel.setHorizontalAlignment(JLabel.CENTER);
         } catch (Exception e) {
             logoLabel = new JLabel("Logo not found");
             logoLabel.setHorizontalAlignment(JLabel.CENTER);

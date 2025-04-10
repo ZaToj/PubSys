@@ -211,5 +211,4 @@ public class User {
         return ("name: "+name + "\n address: "+address+ "\n Gender: "+gender+ "\n Points:: "+pointAmount );
     }
      
-    
 }

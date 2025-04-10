@@ -3,6 +3,7 @@ package real;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unused")
@@ -286,15 +287,17 @@ public class OrderMenu {
         ResultSet rs = null;
         boolean success = false;
         int orderId = -1;
+        LocalDate today = LocalDate.now();
 
         try {
             con = DBHelper.getConnection();
             con.setAutoCommit(false);
 
-            String orderQuery = "INSERT INTO orders (userid, totalcost) VALUES (?, ?)";
+            String orderQuery = "INSERT INTO orders (userid, totalcost,orderdate) VALUES (?, ?,?)";
             orderStmt = con.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
             orderStmt.setInt(1, user.getId());
             orderStmt.setDouble(2, subTotal);
+            orderStmt.setDate(3, java.sql.Date.valueOf(today));
             orderStmt.executeUpdate();
 
             rs = orderStmt.getGeneratedKeys();

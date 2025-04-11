@@ -30,9 +30,10 @@ public class AdminOptions {
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(deleteUser);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(button4);
         buttonPanel.add(returnButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonPanel.add(button4);
+        buttonPanel.add(returnButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(Box.createHorizontalGlue());
 

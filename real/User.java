@@ -48,8 +48,8 @@ public class User {
     public boolean isAdmin(){return isAdmin;} 
     public String getPass(){return password;} 
     
-    public void setPass(String password){password=this.password;} 
-    public void setPointsAmount(int pointAmount){pointAmount=this.pointAmount;} 
+    public void setPass(String password){this.password=password;} 
+    public void setPointsAmount(int pointAmount){this.pointAmount=pointAmount;} 
 
 
 
@@ -70,6 +70,9 @@ public class User {
         //
         //takes in string and gets the acscii value of each char, concatanates them to a string and takes the frist 3 and last 3 which is then turned to binary (20 digits)
         //
+        if(passIn.equals("")){
+            return "";
+        }
         String out="";
         String concat="";
         for (int i = 0; i < passIn.length(); i++){

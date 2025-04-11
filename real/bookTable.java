@@ -74,7 +74,7 @@ import java.util.HashMap;
  
                 public void actionPerformed(java.awt.event.ActionEvent e){
                     dispose();
-                    mainMenu.show(user);
+                    AdminOptions.show(user);
                 }
             });
             returnb.setBounds(5,459,190,80);

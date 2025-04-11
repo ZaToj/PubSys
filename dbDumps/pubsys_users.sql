@@ -41,7 +41,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'toj','11010100111111011','2003-11-01 00:00:00','Swag City','Tojian',93,1),(2,'michael','','2004-09-13 00:00:00','brownsville','Male',0,0),(3,'keelie','11100000110100110','2005-06-09 00:00:00','14yurman','Female',0,1),(4,'darian byrne','','2004-12-01 00:00:00','Carlow','Tojian',0,0),(5,'Brigid','','1979-01-05 00:00:00','ballycoolan','Tojian',0,0),(13,'Sab','','2003-07-13 00:00:00','Denmark?','Female',0,0),(14,'Jose','11011011110100111','2003-06-23 00:00:00','denmark','Female',0,0),(15,'cian','11001101010010110','2005-02-15 00:00:00','newbridge','Male',0,0),(16,'diddy','11101111101110111101','1939-06-11 00:00:00','twin towers','Tojian',0,0),(20,'Caitlin Clancy','1111000111111000100','2001-09-14 00:00:00','ballycoolan','Female',21,0);
+INSERT INTO `users` VALUES (1,'toj','11010100111111011','2003-11-01 00:00:00','Swag City','Tojian',178,1),(2,'michael','','2004-09-13 00:00:00','brownsville','Male',0,0),(3,'keelie','11100000110100110','2005-06-09 00:00:00','14yurman','Female',0,1),(4,'darian byrne','','2004-12-01 00:00:00','Carlow','Tojian',0,0),(5,'Brigid','','1979-01-05 00:00:00','ballycoolan','Tojian',0,0),(13,'Sab','','2003-07-13 00:00:00','Denmark?','Female',0,0),(14,'Jose','11011011110100111','2003-06-23 00:00:00','denmark','Female',0,0),(15,'cian','11001101010010110','2005-02-15 00:00:00','newbridge','Male',0,0),(16,'diddy','11101111101110111101','1939-06-11 00:00:00','twin towers','Tojian',0,0),(20,'Caitlin Clancy','1111000111111000100','2001-09-14 00:00:00','ballycoolan','Female',21,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-11  3:23:59
+-- Dump completed on 2025-04-11 15:47:18

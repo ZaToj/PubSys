@@ -88,6 +88,10 @@ public class menuItem  {
                 transStmt.close();
             } else {
                 JOptionPane.showMessageDialog(null, "Item not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                baseResult.close();
+                baseStmt.close();
+                con.close();
+                return null;
             }
 
             baseResult.close();

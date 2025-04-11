@@ -35,7 +35,7 @@ CREATE TABLE `tablestatus` (
 
 LOCK TABLES `tablestatus` WRITE;
 /*!40000 ALTER TABLE `tablestatus` DISABLE KEYS */;
-INSERT INTO `tablestatus` VALUES (1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0);
+INSERT INTO `tablestatus` VALUES (1,0),(2,0),(3,1),(4,0),(5,0),(6,0),(7,0),(8,0);
 /*!40000 ALTER TABLE `tablestatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-11  3:23:59
+-- Dump completed on 2025-04-11 15:47:18

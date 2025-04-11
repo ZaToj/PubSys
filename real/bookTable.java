@@ -1,15 +1,18 @@
 package real;
-
-
     import javax.swing.*;
     import java.awt.*;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
-    import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashMap;
 
     public class bookTable {
+        public static User user ;
 
-        public static void show(User user) {
+        public static void show(User useri) {
+            user = useri;
             SwingUtilities.invokeLater((new Runnable() {
                 @Override
                 public void run(){
@@ -30,11 +33,23 @@ package real;
             setSize(800, 600);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setLayout(null);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+            JButton returnb = new JButton("Return");
+            returnb.addActionListener(new ActionListener() {
+ 
+                public void actionPerformed(java.awt.event.ActionEvent e){
+                    dispose();
+                    mainMenu.show(user);
+                }
+            });
+            add(returnb);
     
             // Load background image
-            ImageIcon restaurantImage = new ImageIcon("TableLayout.jpg");
-            backgroundLabel = new JLabel(restaurantImage);
-            backgroundLabel.setBounds(0, 0, 800, 600);
+            ImageIcon logo = new ImageIcon("Imgs/floorplan.jpg");
+            backgroundLabel = new JLabel(logo);
+            backgroundLabel.setBounds(0, 0, 800, 600);  
+            backgroundLabel.setHorizontalAlignment(SwingConstants.CENTER);
             
             // Create panel for tables
             tablePanel = new JPanel();
@@ -51,17 +66,53 @@ package real;
     
         private void addTables() {
             int[][] tablePositions = {
-                {100, 150}, {200, 200}, {300, 250}, {400, 300}, {500, 350} // test will get rid of later
+                {1, 160}, {240, 435}, {350, 435}, {459, 435},{705, 150},{575,150},{13,388},{110,388} // test might now work??
             };
-    
-            for (int i = 0; i < tablePositions.length; i++) {
+            
+            JButton returnb = new JButton("Return");
+            returnb.addActionListener(new ActionListener() {
+ 
+                public void actionPerformed(java.awt.event.ActionEvent e){
+                    dispose();
+                    mainMenu.show(user);
+                }
+            });
+            returnb.setBounds(5,459,190,80);
+
+            add(returnb);
+
+            for (int i = 1; i < tablePositions.length; i++) {
                 int x = tablePositions[i][0];
                 int y = tablePositions[i][1];
     
-                JButton tableButton = new JButton("Table " + (i + 1));
-                tableButton.setBounds(x, y, 80, 40);
-                tableButton.setBackground(Color.GREEN);
     
+
+                try {
+                    String sql = "SELECT tablestatus FROM tablestatus WHERE tableid = ? ";
+                    Connection con = DBHelper.getConnection();
+                    PreparedStatement pstmt = con.prepareStatement(sql);
+                    pstmt.setInt(1, i);
+                    ResultSet rs = pstmt.executeQuery();
+                
+                    if(rs.next()){
+                    tableStatus.put(i, rs.getBoolean("tablestatus"));
+                    JButton tableButton = new JButton();
+                    if(!rs.getBoolean("tablestatus")){
+
+                    tableButton.setText("Table " + (i + 1));
+                    tableButton.setBounds(x, y, 80, 40);
+                    tableButton.setBackground(Color.GREEN);
+                    tablePanel.add(tableButton);
+                    
+                    }
+                
+                else{
+                    tableButton.setText("BOOKED " + (i + 1));
+                    tableButton.setBounds(x, y, 80, 40);
+                    tableButton.setBackground(Color.RED); 
+                    tablePanel.add(tableButton); 
+                }
+
                 final int tableId = i;
                 tableButton.addActionListener(new ActionListener() {
                     @Override
@@ -69,9 +120,14 @@ package real;
                         toggleTableStatus(tableButton, tableId);
                     }
                 });
-    
-                tablePanel.add(tableButton);
-                tableStatus.put(i, false); 
+
+            }  
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error!");
+                    e.printStackTrace();
+                }
+
+                
             }
         }
     
@@ -82,9 +138,32 @@ package real;
             if (isBooked) {
                 tableButton.setBackground(Color.GREEN);
                 tableButton.setText("Table " + (tableId + 1));
+                try {
+                    String sql = "UPDATE tablestatus SET tablestatus = 0 WHERE tableid = ? ";
+                    Connection con = DBHelper.getConnection();
+                    PreparedStatement pstmt = con.prepareStatement(sql);
+                    pstmt.setInt(1, tableId);
+                    pstmt.executeUpdate();
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "error updating!");
+                    e.printStackTrace();
+                }
             } else {
                 tableButton.setBackground(Color.RED);
                 tableButton.setText("Booked");
+
+                try {
+                    String sql = "UPDATE tablestatus SET tablestatus = 1 WHERE tableid = ? ";
+                    Connection con = DBHelper.getConnection();
+                    PreparedStatement pstmt = con.prepareStatement(sql);
+                    pstmt.setInt(1, tableId);
+                    pstmt.executeUpdate();
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "error updating!");
+                    e.printStackTrace();
+                }
             }
         }
     

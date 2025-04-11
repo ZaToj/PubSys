@@ -13,7 +13,6 @@ public class mainMenu {
         JButton button = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.order"));
         JButton button2 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.viewProfile"));
         JButton button3 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.orderHistory"));
-        JButton button4 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.bookTable"));
         JButton adminMenuButton = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.admin"));
         user = updateUser(user);
        
@@ -22,7 +21,6 @@ public class mainMenu {
         button.setFont(buttonFont);
         button2.setFont(buttonFont);
         button3.setFont(buttonFont);
-        button4.setFont(buttonFont);
         adminMenuButton.setFont(buttonFont);
 
         JLabel logoLabel; //try get logo
@@ -47,7 +45,6 @@ public class mainMenu {
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(button3);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonPanel.add(button4);
         if(user.isAdmin()) {
             buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             buttonPanel.add(adminMenuButton);
@@ -96,13 +93,6 @@ public class mainMenu {
           
         });
 
-        button4.addActionListener(new ActionListener() {
- 
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                frame.dispose();
-                bookTable.show(user);
-            }
-        });
     }
     private static User updateUser(User user){
         try {

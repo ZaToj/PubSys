@@ -16,11 +16,13 @@ public class AdminOptions {
         JButton returnButton = new JButton(LanguageManager.getInstance().getMessages().getString("admin.return"));
         JButton deleteUser = new JButton(LanguageManager.getInstance().getMessages().getString("admin.makeAdmin"));
         JButton viewButton = new JButton(LanguageManager.getInstance().getMessages().getString("admin.updateUsers"));
-        
+        JButton button4 = new JButton(LanguageManager.getInstance().getMessages().getString("mainMenu.bookTable"));
+
         Font buttonFont = LanguageManager.getInstance().getFont(30);
         returnButton.setFont(buttonFont);
         deleteUser.setFont(buttonFont);
         viewButton.setFont(buttonFont);
+        button4.setFont(buttonFont);
 
         buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(Box.createRigidArea(new Dimension(40, 0)));
@@ -29,6 +31,8 @@ public class AdminOptions {
         buttonPanel.add(deleteUser);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(returnButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(button4);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(Box.createHorizontalGlue());
 
@@ -55,6 +59,14 @@ public class AdminOptions {
                 adminMaker.show(user);
             }
           
+        });
+
+        button4.addActionListener(new ActionListener() {
+ 
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                frame.dispose();
+                bookTable.show(user);
+            }
         });
         
         frame.setVisible(true);

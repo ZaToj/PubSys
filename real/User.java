@@ -25,6 +25,7 @@ public class User {
     private boolean isAdmin;
     
     public User(){}
+    
 
     public User(String name,String password, String dob,String address,String gender,int pointAmount,int id,boolean isAdmin){
         this.name = name;
@@ -36,6 +37,7 @@ public class User {
         this.password=password;
         this.age = ageCAlc(dob);//will fix with an actual calc eventually
         this.isAdmin=isAdmin;
+        
     }
 
     public String getName(){return name;} 
@@ -148,6 +150,7 @@ public class User {
                 ioException.printStackTrace(); // fallback in case writing to file fails
             }
             JOptionPane.showMessageDialog(null, "Database Error!", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
                 return null;
     }

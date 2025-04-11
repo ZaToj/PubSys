@@ -3,3 +3,9 @@ Error: Communications link failure
 
 The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
 Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys
+Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys
+Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys
+Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys
+Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys
+Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys
+Error: No suitable driver found for jdbc:mysql://127.0.0.1:3306/PubSys

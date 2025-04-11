@@ -37,7 +37,7 @@ CREATE TABLE `sys_config` (
 
 LOCK TABLES `sys_config` WRITE;
 /*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
-INSERT INTO `sys_config` VALUES ('diagnostics.allow_i_s_tables','OFF','2025-02-03 05:23:38',NULL),('diagnostics.include_raw','OFF','2025-02-03 05:23:38',NULL),('ps_thread_trx_info.max_length','65535','2025-02-03 05:23:38',NULL),('statement_performance_analyzer.limit','100','2025-02-03 05:23:38',NULL),('statement_performance_analyzer.view',NULL,'2025-02-03 05:23:38',NULL),('statement_truncate_len','64','2025-02-03 05:23:38',NULL);
+INSERT INTO `sys_config` VALUES ('diagnostics.allow_i_s_tables','OFF','2025-02-11 11:54:55',NULL),('diagnostics.include_raw','OFF','2025-02-11 11:54:55',NULL),('ps_thread_trx_info.max_length','65535','2025-02-11 11:54:55',NULL),('statement_performance_analyzer.limit','100','2025-02-11 11:54:55',NULL),('statement_performance_analyzer.view',NULL,'2025-02-11 11:54:55',NULL),('statement_truncate_len','64','2025-02-11 11:54:55',NULL);
 /*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-08 19:25:17
+-- Dump completed on 2025-04-11  3:23:59

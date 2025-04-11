@@ -16,33 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `tablestatus`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `tablestatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `userId` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `dob` datetime DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `gender` varchar(45) DEFAULT NULL,
-  `pointsAmount` int DEFAULT NULL,
-  `isAdmin` int DEFAULT NULL,
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `tablestatus` (
+  `tableid` int NOT NULL,
+  `tablestatus` int DEFAULT NULL,
+  PRIMARY KEY (`tableid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `tablestatus`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'toj','11010100111111011','2003-11-01 00:00:00','Swag City','Tojian',93,1),(2,'michael','','2004-09-13 00:00:00','brownsville','Male',0,0),(3,'keelie','11100000110100110','2005-06-09 00:00:00','14yurman','Female',0,1),(4,'darian byrne','','2004-12-01 00:00:00','Carlow','Tojian',0,0),(5,'Brigid','','1979-01-05 00:00:00','ballycoolan','Tojian',0,0),(13,'Sab','','2003-07-13 00:00:00','Denmark?','Female',0,0),(14,'Jose','11011011110100111','2003-06-23 00:00:00','denmark','Female',0,0),(15,'cian','11001101010010110','2005-02-15 00:00:00','newbridge','Male',0,0),(16,'diddy','11101111101110111101','1939-06-11 00:00:00','twin towers','Tojian',0,0),(20,'Caitlin Clancy','1111000111111000100','2001-09-14 00:00:00','ballycoolan','Female',21,0);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `tablestatus` WRITE;
+/*!40000 ALTER TABLE `tablestatus` DISABLE KEYS */;
+INSERT INTO `tablestatus` VALUES (1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0);
+/*!40000 ALTER TABLE `tablestatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
